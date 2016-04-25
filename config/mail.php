@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'lexus.websitewelcome.com'),
+    'host' => env('MAIL_HOST', 'smtp.gmail.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'info@portalhook.com', 'name' => 'PortalHook'],
+    'from' => ['address' => 'alosalasv@gmail.com', 'name' => 'PortalHook'],
 
     /*
     |--------------------------------------------------------------------------

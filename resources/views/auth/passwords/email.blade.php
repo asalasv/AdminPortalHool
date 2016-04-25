@@ -9,7 +9,7 @@
 <body class="login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="{{ url('/home') }}"><b>Admin</b>LTE</a>
+            <a href="{{ url('/home') }}"><b>Portal</b>Hook</a>
         </div><!-- /.login-logo -->
 
         @if (session('status'))
@@ -30,11 +30,12 @@
         @endif
 
         <div class="login-box-body">
-            <p class="login-box-msg">Reset Password</p>
+            <p class="login-box-msg">¿Olvido su Contraseña?</p>
+            <!-- {!! Form::open(['url' => '/password/email'])!!} -->
             <form action="{{ url('/password/email') }}" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group has-feedback">
-                    <input type="email" class="form-control" placeholder="Email" name="email" value="{{ old('email') }}"/>
+                    <input type="email" class="form-control" placeholder="Dirección de correo electrónico" name="email" value="{{ old('email') }}"/>
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
 
@@ -42,15 +43,15 @@
                     <div class="col-xs-2">
                     </div><!-- /.col -->
                     <div class="col-xs-8">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Send Password Reset Link</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Enviar</button>
                     </div><!-- /.col -->
                     <div class="col-xs-2">
                     </div><!-- /.col -->
                 </div>
+                <!-- {!! Form::close() !!} -->
             </form>
 
-            <a href="{{ url('/login') }}">Log in</a><br>
-            <a href="{{ url('/register') }}" class="text-center">Register a new membership</a>
+            <a href="{{ url('/login') }}">Volver a conexión</a><br>
 
         </div><!-- /.login-box-body -->
 

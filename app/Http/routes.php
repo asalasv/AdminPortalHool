@@ -11,6 +11,8 @@
 |
 */
 
+Route::post('password/email','Auth\PasswordController@postEmail');
+
 Route::group(['middleware' => ['web']], function () {
 
 	/*

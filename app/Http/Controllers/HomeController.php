@@ -33,6 +33,17 @@ class HomeController extends Controller
      */
     public function index()
     {
+
+        // $users = User::all();
+
+        // foreach ($users as $user) {
+        //     if($user->username == 'asdasdasd'){
+        //         $user->password = bcrypt($user->password);
+        //         $user->save();
+        //     }
+
+        // }
+
         return view('home');
     }
 }
