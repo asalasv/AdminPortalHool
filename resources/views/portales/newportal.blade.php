@@ -60,20 +60,20 @@ Nuevo Portal
 					</div>
 					<div class="row " style="padding-top: 7px;">
 						<div class="form col-xs-12">
-							<label for="exampleInputFile">Imagen Publicidad</label>
-							<input type="file" class="input-file" id="imagen_publicidad" name="imagen_publicidad" size="5120">
+							<label for="exampleInputFile">Imagen Publicidad &nbsp;</label><small>(Máx. 100 Kb)</small>
+							<input type="file" class="input-file" id="imagen_publicidad" name="imagen_publicidad" size="100">
 						</div>
 					</div>
 					<div class="row" style="padding-top: 7px;">
 						<div class="form col-xs-12">
-							<label for="exampleInputFile">Logo Local</label>
-							<input type="file" class="input-file" id="imagen_logo" name="imagen_logo" size="5120">
+							<label for="exampleInputFile">Logo Local &nbsp;</label><small>(Máx. 25 Kb)</small>
+							<input type="file" class="input-file" id="imagen_logo" name="imagen_logo" size="25">
 						</div>
 					</div>
 					<div class="row" style="padding-top: 7px;">
 						<div class="form col-xs-12">
-							<label for="exampleInputFile">Imagen Fondo</label>
-							<input type="file" class="input-file" id="imagen_fondo" name="imagen_fondo" size="5120">
+							<label for="exampleInputFile">Imagen Fondo &nbsp;</label><small>(Máx. 60 Kb)</small>
+							<input type="file" class="input-file" id="imagen_fondo" name="imagen_fondo" size="60">
 						</div>
 					</div>
 				</div>
@@ -141,13 +141,27 @@ Nuevo Portal
     		}
     	});
 
-    	/* Valida el tamaño maximo de un archivo adjunto */
+    	/* Valida el tamaño maximo y formato de un archivo adjunto */
     	$('.input-file').change(function (){
-    		var sizeByte = this.files[0].size;
-    		var siezekiloByte = parseInt(sizeByte / 1024);
+    		var file = this.files[0]; 
+    		var filename = file.name;
 
-    		if(siezekiloByte > $(this).attr('size')){
-    			alert('El tamaño supera el limite permitido (5Mb)');
+    		var extension = filename.substr( (filename.lastIndexOf('.') +1) );
+
+    		switch(extension) {
+    			case 'jpg':
+    			case 'png':
+    			var sizeByte = this.files[0].size;
+
+    			var siezekiloByte = parseInt(sizeByte / 1024);
+
+    			if(siezekiloByte > $(this).attr('size')){
+    				alert('El tamaño supera el limite permitido ('+$(this).attr('size')+' Kb)');
+    				$(this).val('');
+    			}
+    			break;
+    			default:
+    			alert("El formato debe ser '.jpg' o '.png'");
     			$(this).val('');
     		}
     	});

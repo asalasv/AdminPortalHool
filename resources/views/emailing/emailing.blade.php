@@ -17,16 +17,8 @@ E-mailing
 			<div class="box-body">
 
 				<div class="alert alert-danger alert-dismissible">
-					<h4><i class="icon fa fa-info"></i> Info!</h4>
-					“Este servicio se habilitará automáticamente tras 6 meses de servicio ininterrumpido de recolección de data”
-				</div>
-				<div class="alert alert-info alert-dismissible">
-					<h4><i class="icon fa fa-info"></i> Info!</h4>
-					“Este servicio se habilitará automáticamente tras 6 meses de servicio ininterrumpido de recolección de data”
-				</div>
-				<div class="alert alert-warning alert-dismissible">
-					<h4><i class="icon fa fa-info"></i> Info!</h4>
-					“Este servicio se habilitará automáticamente tras 6 meses de servicio ininterrumpido de recolección de data”
+					<h4><i class="icon fa fa-info"></i> Info</h4>
+					Este servicio se habilitará automáticamente tras 6 meses de servicio ininterrumpido de recolección de data
 				</div>
 			</div>
 			<!-- /.box -->

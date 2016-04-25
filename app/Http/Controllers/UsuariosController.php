@@ -6,6 +6,7 @@ use Auth;
 use Illuminate\Http\Request;
 use App\Clientes_Usuarios;
 use App\Usuarios_ph;
+use App\Cliente;
 
 use Requests;
 
@@ -37,6 +38,7 @@ class UsuariosController extends Controller
     public function index(){
 
         $id_cliente = $this->getIdcliente();
+        $cliente = Cliente::findOrFail($id_cliente);
         $clientes_usuarios = \DB::table('clientes_usuarios')->where('id_cliente', '=', $id_cliente)->get();
         $usuariosid = array();
         
@@ -46,7 +48,7 @@ class UsuariosController extends Controller
 
         $usuarios = Usuarios_ph::whereIn('id_usuario_ph', $usuariosid)->paginate(15);
 
-        return view('users/users',compact('usuarios'));
+        return view('users/users',compact('usuarios','cliente'));
     }
 
     public function verifyemail($email){
@@ -57,6 +59,21 @@ class UsuariosController extends Controller
             return 'true';
         }
         return 'false';
+    }
+
+    public function changestatus(){
+
+        $id_cliente = $this->getIdcliente();
+        $cliente = Cliente::findOrFail($id_cliente);
+        if ($cliente->privado == 'V') {
+            $cliente->privado = 'F';
+        }else
+            $cliente->privado = 'V';
+
+            $cliente->save();
+
+            return 'Estatus cambiado';
+
     }
 
 

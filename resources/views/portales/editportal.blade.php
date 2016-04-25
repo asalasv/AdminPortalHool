@@ -68,16 +68,16 @@ Editar Portal
 						<div class="col-xs-4">
 							@if($portal->imagen_publicidad)
 							<div class="panel-body">
-								<img src='{{ asset("$portal->imagen_publicidad") }}'  style="height: 200px;" alt="..." class="img-rounded center-block">
+								<img src='{{ asset("images/$portal->imagen_publicidad") }}'  style="height: 200px;" alt="..." class="img-rounded center-block">
 								<div class="form-group" style="padding-left: 15px; padding-top: 10px;">
-									<label for="exampleInputFile">Cambiar Publicidad</label>
-									<input type="file" id="imagen_publicidad" name="imagen_publicidad">
+									<label for="exampleInputFile">Cambiar Publicidad &nbsp;</label><small>(Máx. 100 Kb)</small>
+									<input type="file" class="input-file" id="imagen_publicidad" name="imagen_publicidad" size="100">
 								</div>
 							</div>
 							@else
 							<div class="form-group" style="padding-left: 15px;">
-								<label for="exampleInputFile">Imagen Publicidad</label>
-								<input type="file" id="imagen_publicidad" name="imagen_publicidad">
+								<label for="exampleInputFile">Imagen Publicidad &nbsp;</label><small>(Máx. 100 Kb)</small>
+								<input type="file" class="input-file" id="imagen_publicidad" name="imagen_publicidad" size="100">
 							</div>
 							@endif
 						</div>
@@ -85,16 +85,16 @@ Editar Portal
 						<div class="col-xs-4">
 							@if($portal->imagen_logo)
 							<div class="panel-body">
-								<img src='{{ asset("$portal->imagen_logo") }}'  style="height: 200px;" alt="..." class="img-rounded center-block">
+								<img src='{{ asset("images/$portal->imagen_logo") }}'  style="height: 200px;" alt="..." class="img-rounded center-block">
 								<div class="form-group" style="padding-left: 15px; padding-top: 10px;">
-									<label for="exampleInputFile">Cambiar Logo</label>
-									<input type="file" id="imagen_logo" name="imagen_logo">
+									<label for="exampleInputFile">Cambiar Logo &nbsp;</label><small>(Máx. 25 Kb)</small>
+									<input type="file" class="input-file" id="imagen_logo" name="imagen_logo" size="25" >
 								</div>
 							</div>
 							@else
 							<div class="form-group">
-								<label for="exampleInputFile">Logo Local</label>
-								<input type="file" id="imagen_logo" name="imagen_logo">
+								<label for="exampleInputFile">Logo Local &nbsp;</label><small>(Máx. 25 Kb)</small>
+								<input type="file" class="input-file" id="imagen_logo" name="imagen_logo" size="25">
 							</div>
 							@endif
 
@@ -103,16 +103,16 @@ Editar Portal
 						<div class="col-xs-4">
 							@if($portal->imagen_fondo)
 							<div class="panel-body">
-								<img src='{{ asset("$portal->imagen_fondo") }}'  style="height: 200px;" alt="..." class="img-rounded center-block">
+								<img src='{{ asset("images/$portal->imagen_fondo") }}'  style="height: 200px;" alt="..." class="img-rounded center-block">
 								<div class="form-group" style="padding-left: 15px; padding-top: 10px;">
-									<label for="exampleInputFile">Cambiar fondo</label>
-									<input type="file" id="imagen_fondo" name="imagen_fondo">
+									<label for="exampleInputFile">Cambiar fondo &nbsp;</label><small>(Máx. 60 Kb)</small>
+									<input type="file" class="input-file" id="imagen_fondo" name="imagen_fondo" size="60">
 								</div>
 							</div>
 							@else
 							<div class="form-group">
-								<label for="exampleInputFile">Imagen Fondo</label>
-								<input type="file" id="imagen_fondo" name="imagen_fondo">
+								<label for="exampleInputFile">Imagen Fondo &nbsp;</label><small>(Máx. 60 Kb)</small>
+								<input type="file" class="input-file" id="imagen_fondo" name="imagen_fondo" size="60">
 							</div>
 							@endif
 						</div>
@@ -161,6 +161,31 @@ Editar Portal
     vhasta.datepicker(options); //initiali110/26/2015 8:20:59 PM ze plugin
 
     $(document).ready(function(){
+
+    	/* Valida el tamaño maximo y formato de un archivo adjunto */
+    	$('.input-file').change(function (){
+    		var file = this.files[0]; 
+    		var filename = file.name;
+
+    		var extension = filename.substr( (filename.lastIndexOf('.') +1) );
+
+    		switch(extension) {
+    			case 'jpg':
+    			case 'png':
+	    			var sizeByte = this.files[0].size;
+
+	    			var siezekiloByte = parseInt(sizeByte / 1024);
+
+	    			if(siezekiloByte > $(this).attr('size')){
+	    				alert('El tamaño supera el limite permitido ('+$(this).attr('size')+' Kb)');
+	    				$(this).val('');
+	    			}
+    			break;
+    			default:
+    			alert("El formato debe ser '.jpg' o '.png'");
+    			$(this).val('');
+    		}
+    	});
 
     	var predeterminado = false;
 

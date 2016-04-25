@@ -61,6 +61,11 @@ Route::group(['middleware' => ['web']], function () {
 	    'as' => 'verifyemail', 
 	    'uses' => 'UsuariosController@verifyemail'
 	]);
+	Route::post('changestatus',[
+	    'as' => 'changestatus', 
+	    'uses' => 'UsuariosController@changestatus'
+	]);
+
 
 	/*
 	|--------------------------------------------------------------------------

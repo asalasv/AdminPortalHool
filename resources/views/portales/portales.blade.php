@@ -27,20 +27,40 @@ Portales
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<table class="table table-hover">
 						<tr>
-							<th>Descripcion</th>
-							<th>fecha_inicio</th>
-							<th>fecha_fin</th>
+							<th>Descripción</th>
+							<th>Fecha inicio</th>
+							<th>Fecha fin</th>
+							<th>Hora Inicio</th>
+							<th>Hora fin</th>
 							<th>Predeterminado</th>
 						</tr>
 						@foreach($portales as $portal)
 						<tr data-id="{{ $portal->id_portal_cliente}}" data-name ="{{$portal->descripcion}}">
 							<td>{{$portal->descripcion}}</td>
-							<td>{{$portal->fecha_inicio}}</td>
-							<td>{{$portal->fecha_fin}}</td>
+							@if($portal->fecha_inicio != '')
+								<td>{{$portal->fecha_inicio}}</td>
+							@else
+								<td>-</td>
+							@endif
+							@if($portal->fecha_fin != '')
+								<td>{{$portal->fecha_fin}}</td>
+							@else
+							<td>-</td>
+							@endif
+							@if($portal->hora_inicio != '00:00:00')
+								<td>{{$portal->hora_inicio}}</td>
+							@else
+							<td>-</td>
+							@endif
+							@if($portal->hora_inicio != '00:00:00')
+								<td>{{$portal->hora_fin}}</td>
+							@else
+								<td>-</td>
+							@endif
 							@if($portal->predeterminado == 'V')
 								<td><span class="label label-success">Predeterminado</span></td>
 							@else
-								<td></td>
+								<td>-</td>
 							@endif
 							<td><a href="{{ url('editportal', $portal) }}"><i class="fa fa-fw fa-edit"></i>Editar</a></td>
 							<td><a href="#" class="btn-delete"><i class="fa fa-fw fa-times"></i>Eliminar</a></td>

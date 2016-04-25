@@ -60,6 +60,12 @@ Cambiar Contraseña
 		});
 		$(document).ready(function(){
 
+
+			$(function(){
+				$('#menu-config').addClass('active')
+				$('#menu-cuenta').addClass('active'); 
+			});
+
 			$('#cambiar').prop('disabled', true)
 
 			$('#pass1').on('input',function(e){

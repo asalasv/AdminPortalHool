@@ -47,7 +47,7 @@
             </div><!-- /.col -->
         </div>
     </form>
-    <a href="{{ url('password/email') }}">¿Olvidaste tu contraseña?</a><br>
+    <a href="{{ url('/password/reset') }}">¿Olvidaste tu contraseña?</a><br>
 
 </div><!-- /.login-box-body -->
 

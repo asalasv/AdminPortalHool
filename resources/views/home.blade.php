@@ -18,17 +18,17 @@ Home
 							<img src="img/admin.jpg" alt="..." class="img-rounded center-block">
 						</div>
 				</div>
-				<div class="box-footer">
+<!-- 				<div class="box-footer">
 					<div class="col-md-3">
 							<div class="info-box">
 					            <span class="info-box-icon bg-green"><i class="fa fa-file-excel-o"></i></span>
 					            <div class="info-box-content">
 					              	<a href="{{ url('excel') }}"><span class="info-box-number">Descargar Base de Datos</span></a>
-					            </div>
+					            </div> -->
 					            <!-- /.info-box-content -->
-					    	</div>
+<!-- 					    	</div>
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 

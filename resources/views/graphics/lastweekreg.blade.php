@@ -64,6 +64,11 @@ $.ajaxSetup({
 });
 
 $(document).ready(function(){
+
+		$(function(){
+		    $('#menu-grafic').addClass('active');  
+		});
+
 		var vdesde= $("#vdesde").val();
 		var vhasta= $("#vhasta").val();
 

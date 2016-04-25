@@ -9,7 +9,7 @@
     <body class="login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="{{ url('/home') }}"><b>Admin</b>LTE</a>
+            <a href="{{ url('/home') }}"><b>Portal</b>Hook</a>
         </div><!-- /.login-logo -->
 
         @if (session('status'))
@@ -61,6 +61,7 @@
             </form>
 
             <a href="{{ url('/login') }}">Log in</a><br>
+            <a href="{{ url('/register') }}" class="text-center">Register a new membership</a>
 
         </div><!-- /.login-box-body -->
 
