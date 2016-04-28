@@ -38,7 +38,7 @@
             <div class="col-xs-8">
                 <div class="checkbox icheck">
                     <label>
-                        <input type="checkbox" name="remember"> Remember Me
+                        <input type="checkbox" name="remember"> Recordarme
                     </label>
                 </div>
             </div><!-- /.col -->

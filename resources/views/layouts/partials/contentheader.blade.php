@@ -1,7 +1,13 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
+
     <h1>
-        @yield('contentheader_title', 'PortalHook Admin')
+    @if(Session::has('client'))
+	     @yield('contentheader_title',  Session::get('client.name') )
+	@else 
+		@yield('contentheader_title', 'PortalHook Admin')
+	@endif
+       
         <small>@yield('contentheader_description')</small>
     </h1>
     <ol class="breadcrumb">

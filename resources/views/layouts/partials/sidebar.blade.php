@@ -35,6 +35,7 @@
             <li class="header">MENÚ</li>
             <!-- Optionally, you can add icons to the links -->
             <li class="treeview"><a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>Home</span></a></li>
+            <li class="treeview"><a href="#" data-toggle="modal" data-target="#SelectModal"><i class='fa fa-building'></i> <span>Clientes</span></a></li>
             <li class="treeview" id="menu-grafic">
                 <a href="#"><i class='fa fa-line-chart'></i> <span>Estadísticas</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">

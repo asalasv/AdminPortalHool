@@ -6,9 +6,11 @@ use Request;
 use Auth; 
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Cliente;
 use DB;
 use App\Quotation;
 use DateTime;
+use Illuminate\Support\Facades\Session;
 
 class GraphicsController extends Controller
 {
@@ -23,24 +25,42 @@ class GraphicsController extends Controller
         $this->middleware('auth');
     }
 
+
+    public function getIdcliente(){
+
+        return Session::get('client.id_cliente');
+
+    }
+
+    public function getclientes(){
+        $user=Auth::user();
+
+        $clientes = Cliente::where('id_usuario_web', $user->id_usuario_web)->get();
+
+        return $clientes;
+    }
+
     public function lastweekreg()
     {
+        if($this->getIdcliente() == null ){
+            return redirect('home');
+        }
 
-        // $users = User::all();
+        $clientes = $this->getclientes();
 
-        // foreach ($users as $user) {
-
-        //     $user->password = bcrypt($user->password);
-        //     $user->save();
-        // }
-
-        return view('graphics/lastweekreg');
+        return view('graphics/lastweekreg',compact('clientes'));
     }
 
     //Registros Nuevos Ultima Semana
     public function newlastweekreg()
     {
-        return view('graphics/newlastweekreg');
+        if($this->getIdcliente() == null ){
+            return redirect('home');
+        }
+
+        $clientes = $this->getclientes();
+
+        return view('graphics/newlastweekreg',compact('clientes'));
     }
 
     //Registros Nuevos Ultima Semana
@@ -119,7 +139,13 @@ class GraphicsController extends Controller
     //Conexiones al Portal Ultima Semana.
     public function connectlastweek()
     {
-        return view('graphics/connectlastweek');
+        if($this->getIdcliente() == null ){
+            return redirect('home');
+        }
+
+        $clientes = $this->getclientes();
+
+        return view('graphics/connectlastweek',compact('clientes'));
     }
 
     public function getconnectlastweek()
@@ -267,7 +293,13 @@ class GraphicsController extends Controller
     //Registros Usuarios PortalHook
     public function portalhookuserreg()
     {
-        return view('graphics/portalhookuserreg');
+        if($this->getIdcliente() == null ){
+            return redirect('home');
+        }
+
+        $clientes = $this->getclientes();
+
+        return view('graphics/portalhookuserreg',compact('clientes'));
     }
 
     //Registros Usuarios PortalHook
@@ -371,7 +403,13 @@ class GraphicsController extends Controller
     //Registros Usuarios PortalHook Hombres y Mujeres
     public function sexportalhookuserreg()
     {
-        return view('graphics/sexportalhookuserreg');
+        if($this->getIdcliente() == null ){
+            return redirect('home');
+        }
+
+        $clientes = $this->getclientes();
+
+        return view('graphics/sexportalhookuserreg',compact('clientes'));
     }
 
     public function getsexportalhookuserreg()

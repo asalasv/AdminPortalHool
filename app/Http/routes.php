@@ -49,6 +49,7 @@ Route::group(['middleware' => ['web']], function () {
 	| Usuarios Modulo Routes
 	|--------------------------------------------------------------------------
 	*/
+	Route::get('singout', 'Auth\AuthController@getLogout');
 
 	Route::get('/usuarios','UsuariosController@index');
 	Route::post('/postusuario/{email}',[
@@ -66,6 +67,11 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('changestatus',[
 	    'as' => 'changestatus', 
 	    'uses' => 'UsuariosController@changestatus'
+	]);
+
+	Route::post('selectclient/{id}',[
+		'as' => 'selectclient',
+		'uses' => 'ClientesController@select'
 	]);
 
 

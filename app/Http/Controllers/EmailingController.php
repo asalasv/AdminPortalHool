@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Cliente;
+use Auth; 
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests;
 
 class EmailingController extends Controller
@@ -15,24 +17,19 @@ class EmailingController extends Controller
 
     public function getIdcliente(){
 
-        $user=Auth::user();
-
-        $sql1 = "SELECT id_cliente
-        FROM clientes
-        WHERE id_usuario_web =".$user->id_usuario_web;
-
-        $rows = \DB::select($sql1);  
-
-        if(count($rows)){
-            return $rows[0]->id_cliente;
-        }else{
-            return null;
-        }
+        return Session::get('client.id_cliente');
 
     }
 
     public function index(){
+        $user=Auth::user();
 
-    	return view('emailing/emailing');
+        if($this->getIdcliente() == null ){
+            return redirect('home');
+        }
+
+        $clientes = Cliente::where('id_usuario_web', $user->id_usuario_web)->get();
+
+    	return view('emailing/emailing',compact('clientes'));
     }
 }

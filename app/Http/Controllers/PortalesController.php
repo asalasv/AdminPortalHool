@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth; 
 use App\Portal;
+use App\Cliente;
 use App\Quotation;
 use DB;
-
+use Illuminate\Support\Facades\Session;
 
 
 use Illuminate\Support\Collection as Collection;
@@ -22,42 +23,55 @@ class PortalesController extends Controller
 
     public function getIdcliente(){
 
+        return Session::get('client.id_cliente');
+
+    }
+
+    public function getclientes(){
         $user=Auth::user();
 
-        $sql1 = "SELECT id_cliente
-        FROM clientes
-        WHERE id_usuario_web =".$user->id_usuario_web;
+        $clientes = Cliente::where('id_usuario_web', $user->id_usuario_web)->get();
 
-        $rows = \DB::select($sql1);  
-
-        if(count($rows)){
-            return $rows[0]->id_cliente;
-        }else{
-            return null;
-        }
-
+        return $clientes;
     }
 
     public function index()
     {
+        if($this->getIdcliente() == null ){
+            return redirect('home');
+        }
+
         $id_cliente = $this->getIdcliente();
+
+        $clientes = $this->getclientes();
 
         $portales = Portal::where('id_cliente', $id_cliente)->paginate(15);
 
-        return view('portales/portales',compact('portales'));
+        return view('portales/portales',compact('portales', 'clientes'));
     }
 
     public function newportal(Request $request){
+        if($this->getIdcliente() == null ){
+            return redirect('home');
+        }
 
-        return view('portales/newportal');
+        $clientes = $this->getclientes();
+
+        return view('portales/newportal',compact('clientes'));
         
     }
 
     public function editportal($id_portal_cliente, Request $request){
 
+        if($this->getIdcliente() == null ){
+            return redirect('home');
+        }
+
         $portal = Portal::findOrFail($id_portal_cliente);
 
-        return view('portales/editportal',compact('portal'));
+        $clientes = $this->getclientes();
+
+        return view('portales/editportal',compact('portal','clientes'));
     }
 
         public function update($id_portal_cliente, Request $request){

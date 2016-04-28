@@ -8,6 +8,8 @@ use App\Clientes_Usuarios;
 use App\Usuarios_ph;
 use App\Cliente;
 
+use Illuminate\Support\Facades\Session;
+
 use Requests;
 
 class UsuariosController extends Controller
@@ -18,24 +20,18 @@ class UsuariosController extends Controller
     }
 
     public function getIdcliente(){
-
-        $user=Auth::user();
-
-        $sql1 = "SELECT id_cliente
-        FROM clientes
-        WHERE id_usuario_web =".$user->id_usuario_web;
-
-        $rows = \DB::select($sql1);  
-
-        if(count($rows)){
-            return $rows[0]->id_cliente;
-        }else{
-            return null;
-        }
-
+        return Session::get('client.id_cliente');
     }
 
     public function index(){
+
+        if($this->getIdcliente() == null ){
+            return redirect('home');
+        }
+
+        $user=Auth::user();
+
+        $clientes = Cliente::where('id_usuario_web', $user->id_usuario_web)->get();
 
         $id_cliente = $this->getIdcliente();
         $cliente = Cliente::findOrFail($id_cliente);
@@ -48,7 +44,7 @@ class UsuariosController extends Controller
 
         $usuarios = Usuarios_ph::whereIn('id_usuario_ph', $usuariosid)->paginate(15);
 
-        return view('users/users',compact('usuarios','cliente'));
+        return view('users/users',compact('usuarios','cliente','clientes'));
     }
 
     public function verifyemail($email){

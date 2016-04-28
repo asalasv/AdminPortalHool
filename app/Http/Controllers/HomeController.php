@@ -9,6 +9,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use App\Cliente;
+use Auth; 
+use App\User;
+
+use Illuminate\Support\Facades\Session;
 
 /**
  * Class HomeController
@@ -34,6 +39,10 @@ class HomeController extends Controller
     public function index()
     {
 
+        $user=Auth::user();
+
+        $clientes = Cliente::where('id_usuario_web', $user->id_usuario_web)->get();
+
         // $users = User::all();
 
         // foreach ($users as $user) {
@@ -44,6 +53,6 @@ class HomeController extends Controller
 
         // }
 
-        return view('home');
+        return view('home', compact('clientes'));
     }
 }

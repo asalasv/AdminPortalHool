@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-
+use App\Cliente;
+use Illuminate\Support\Facades\Session;
 use Auth;
 
 class SettingsController extends Controller
@@ -18,24 +19,26 @@ class SettingsController extends Controller
 
     public function getIdcliente(){
 
-        $user=Auth::user();
-
-        $sql1 = "SELECT id_cliente
-        FROM clientes
-        WHERE id_usuario_web =".$user->id_usuario_web;
-
-        $rows = \DB::select($sql1);  
-
-        if(count($rows)){
-            return $rows[0]->id_cliente;
-        }else{
-            return null;
-        }
+        return Session::get('client.id_cliente');
 
     }
 
+    public function getclientes(){
+        $user=Auth::user();
+
+        $clientes = Cliente::where('id_usuario_web', $user->id_usuario_web)->get();
+
+        return $clientes;
+    }
+
     public function changepass(){
-    	return view('settings/editpassword');
+        if($this->getIdcliente() == null ){
+            return redirect('home');
+        }
+
+        $clientes = $this->getclientes();
+
+    	return view('settings/editpassword',compact('clientes'));
     }
 
     public function updatepass(Request $request){
