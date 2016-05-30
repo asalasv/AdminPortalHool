@@ -74,6 +74,21 @@ Route::group(['middleware' => ['web']], function () {
 		'uses' => 'ClientesController@select'
 	]);
 
+	Route::post('changestatusph/{id}',[
+	    'as' => 'changestatusph', 
+	    'uses' => 'UsuariosController@changestatusph'
+	]);
+
+	Route::post('habilitarph/{id}',[
+	    'as' => 'habilitarph', 
+	    'uses' => 'UsuariosController@habilitarph'
+	]);
+
+	Route::post('inhabilitarph/{id}',[
+	    'as' => 'inhabilitarph', 
+	    'uses' => 'UsuariosController@inhabilitarph'
+	]);
+
 
 	/*
 	|--------------------------------------------------------------------------
@@ -104,6 +119,11 @@ Route::group(['middleware' => ['web']], function () {
 	
 	Route::get('sexportalhookuserreg', 'GraphicsController@sexportalhookuserreg');
 	Route::get('sexportalhookuserreg/get', 'GraphicsController@getsexportalhookuserreg');
+
+	Route::get('coneccfraudulentas', 'GraphicsController@coneccfraudulentas');
+	Route::get('coneccfraudulentas/get', 'GraphicsController@getconeccfraudulentas');
+
+
 
 	/*
 	|--------------------------------------------------------------------------

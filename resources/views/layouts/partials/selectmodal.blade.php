@@ -70,8 +70,7 @@
 								url: url,
 								data: data,
 								success: function(data){
-
-								    alert('Cliente "'+row.data('name')+'" Seleccionado');
+									console.log(data);
 								    $('#SelectModal').modal('hide');
 								    window.location.reload(); // This is not jQuery but simple plain ol' JS
 								}

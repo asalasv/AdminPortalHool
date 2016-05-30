@@ -46,6 +46,10 @@
     <link rel="stylesheet" type="text/css" href="{{ asset ('/plugins/clockpicker-gh-pages/dist/bootstrap-clockpicker.min.css')}}"/>
     <script src="{{ asset ('/plugins/clockpicker-gh-pages/dist/bootstrap-clockpicker.min.js')}}"></script>
 
+    <!-- BOOTSTRAP TABLE -->
+    <link rel="stylesheet" type="text/css" href="{{ asset ('/plugins/bootstrap-table-master/dist/bootstrap-table.css')}}">
+    <script src="{{ asset ('/plugins/bootstrap-table-master/dist/bootstrap-table.js')}}"></script>
+
     
 
 </head>

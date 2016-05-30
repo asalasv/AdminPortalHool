@@ -8,9 +8,10 @@
 
 <body class="login-page">
     <div class="login-box">
-        <div class="login-logo">
-            <a href="{{ url('/home') }}"><b>Portal</b>Hook</a>
+        <div class="login-logo" style="padding-left: 70px;padding-right: 70px">
+            <a href="{{ url('/home') }}"><img src="../img/logofinal.png" class="img-responsive"></a>
         </div><!-- /.login-logo -->
+
 
         @if (session('status'))
             <div class="alert alert-success">

@@ -75,64 +75,55 @@ class GraphicsController extends Controller
             $req = json_decode($req);
 
             $user=Auth::user();
-            
-            $sql1 = "SELECT id_cliente
-                    FROM clientes
-                    WHERE id_usuario_web =".$user->id_usuario_web;
 
-            $rows = DB::select($sql1);
+            $id_cliente = $this->getIdcliente();
 
-            if(count($rows)){
-                $id_cliente = $rows[0]->id_cliente;
+            if($req->desde and $req->hasta){
 
-                if($req->desde and $req->hasta){
+                $req->desde = (new DateTime($req->desde))->format('Y-m-d');
+
+                $req->hasta = (new DateTime($req->hasta))->format('Y-m-d');
+
+                $sql = "SELECT date_format(`fecha_registro`,'%m-%d-%Y'), count(date_format(`fecha_registro`,'%m-%d-%Y'))
+                        FROM `primer_registro_email`
+                        WHERE `id_cliente` = ".$id_cliente.
+                        " AND date_format(`fecha_registro`,'%m-%d-%Y') between date_format( '".$req->desde."' ,'%m-%d-%Y') and date_format( '".$req->hasta."' ,'%m-%d-%Y')
+                        GROUP BY date_format(`fecha_registro`,'%m-%d-%Y')";
+            }else
+                if($req->desde){
 
                     $req->desde = (new DateTime($req->desde))->format('Y-m-d');
-
-                    $req->hasta = (new DateTime($req->hasta))->format('Y-m-d');
 
                     $sql = "SELECT date_format(`fecha_registro`,'%m-%d-%Y'), count(date_format(`fecha_registro`,'%m-%d-%Y'))
                             FROM `primer_registro_email`
                             WHERE `id_cliente` = ".$id_cliente.
-                            " AND date_format(`fecha_registro`,'%m-%d-%Y') between date_format( '".$req->desde."' ,'%m-%d-%Y') and date_format( '".$req->hasta."' ,'%m-%d-%Y')
+                            " AND date_format(`fecha_registro`,'%m-%d-%Y')  > date_format( '".$req->desde."' ,'%m-%d-%Y') 
                             GROUP BY date_format(`fecha_registro`,'%m-%d-%Y')";
                 }else
-                    if($req->desde){
+                    if($req->hasta){
 
-                        $req->desde = (new DateTime($req->desde))->format('Y-m-d');
+                        $req->hasta = (new DateTime($req->hasta))->format('Y-m-d');
 
                         $sql = "SELECT date_format(`fecha_registro`,'%m-%d-%Y'), count(date_format(`fecha_registro`,'%m-%d-%Y'))
                                 FROM `primer_registro_email`
                                 WHERE `id_cliente` = ".$id_cliente.
-                                " AND date_format(`fecha_registro`,'%m-%d-%Y')  > date_format( '".$req->desde."' ,'%m-%d-%Y') 
+                                " AND date_format(`fecha_registro`,'%m-%d-%Y') < date_format( '".$req->hasta."' ,'%m-%d-%Y')
                                 GROUP BY date_format(`fecha_registro`,'%m-%d-%Y')";
-                    }else
-                        if($req->hasta){
+                    }else{
+                        $sql = "SELECT date_format(`fecha_registro`,'%m-%d-%Y'), count(date_format(`fecha_registro`,'%m-%d-%Y'))
+                                FROM `primer_registro_email`
+                                WHERE `id_cliente` = ".$id_cliente.
+                                " AND date_format(`fecha_registro`,'%m-%d-%Y') between date_format(now()-interval 7 day,'%m-%d-%Y') and date_format(now(),'%m-%d-%Y')
+                                GROUP BY date_format(`fecha_registro`,'%m-%d-%Y')";
+                    }
 
-                            $req->hasta = (new DateTime($req->hasta))->format('Y-m-d');
-
-                            $sql = "SELECT date_format(`fecha_registro`,'%m-%d-%Y'), count(date_format(`fecha_registro`,'%m-%d-%Y'))
-                                    FROM `primer_registro_email`
-                                    WHERE `id_cliente` = ".$id_cliente.
-                                    " AND date_format(`fecha_registro`,'%m-%d-%Y') < date_format( '".$req->hasta."' ,'%m-%d-%Y')
-                                    GROUP BY date_format(`fecha_registro`,'%m-%d-%Y')";
-                        }else{
-                            $sql = "SELECT date_format(`fecha_registro`,'%m-%d-%Y'), count(date_format(`fecha_registro`,'%m-%d-%Y'))
-                                    FROM `primer_registro_email`
-                                    WHERE `id_cliente` = ".$id_cliente.
-                                    " AND date_format(`fecha_registro`,'%m-%d-%Y') between date_format(now()-interval 7 day,'%m-%d-%Y') and date_format(now(),'%m-%d-%Y')
-                                    GROUP BY date_format(`fecha_registro`,'%m-%d-%Y')";
-                        }
-
-                
             
-                $results = DB::select($sql);
+        
+            $results = DB::select($sql);
 
-                return $results;
+            return $results;
 
 
-            }else
-                return "El id del usuario '".$user->username."' no se encuentra en tabla clientes";
         }
     }
 
@@ -160,61 +151,52 @@ class GraphicsController extends Controller
 
             $user=Auth::user();
             
-            $sql1 = "SELECT id_cliente
-                    FROM clientes
-                    WHERE id_usuario_web =".$user->id_usuario_web;
+          
+            $id_cliente = $this->getIdcliente();
 
-            $rows = DB::select($sql1);
+            if($req->desde and $req->hasta){
 
-            if(count($rows)){
-                $id_cliente = $rows[0]->id_cliente;
+                $req->desde = (new DateTime($req->desde))->format('Y-m-d');
 
-                if($req->desde and $req->hasta){
+                $req->hasta = (new DateTime($req->hasta))->format('Y-m-d');
+
+                $sql = "SELECT date_format(`fecha_actividad`,'%m-%d-%Y'), count(date_format(`fecha_actividad`,'%m-%d-%Y'))
+                        FROM `actividad_portales`
+                        WHERE `id_cliente` = ".$id_cliente.
+                        " AND date_format(`fecha_actividad`,'%m-%d-%Y') between date_format( '".$req->desde."' ,'%m-%d-%Y') and date_format( '".$req->hasta."' ,'%m-%d-%Y')
+                        GROUP BY date_format(`fecha_actividad`,'%m-%d-%Y')";
+            }else
+                if($req->desde){
 
                     $req->desde = (new DateTime($req->desde))->format('Y-m-d');
-
-                    $req->hasta = (new DateTime($req->hasta))->format('Y-m-d');
 
                     $sql = "SELECT date_format(`fecha_actividad`,'%m-%d-%Y'), count(date_format(`fecha_actividad`,'%m-%d-%Y'))
                             FROM `actividad_portales`
                             WHERE `id_cliente` = ".$id_cliente.
-                            " AND date_format(`fecha_actividad`,'%m-%d-%Y') between date_format( '".$req->desde."' ,'%m-%d-%Y') and date_format( '".$req->hasta."' ,'%m-%d-%Y')
+                            " AND date_format(`fecha_actividad`,'%m-%d-%Y')  > date_format( '".$req->desde."' ,'%m-%d-%Y') 
                             GROUP BY date_format(`fecha_actividad`,'%m-%d-%Y')";
                 }else
-                    if($req->desde){
+                    if($req->hasta){
 
-                        $req->desde = (new DateTime($req->desde))->format('Y-m-d');
+                        $req->hasta = (new DateTime($req->hasta))->format('Y-m-d');
 
                         $sql = "SELECT date_format(`fecha_actividad`,'%m-%d-%Y'), count(date_format(`fecha_actividad`,'%m-%d-%Y'))
                                 FROM `actividad_portales`
                                 WHERE `id_cliente` = ".$id_cliente.
-                                " AND date_format(`fecha_actividad`,'%m-%d-%Y')  > date_format( '".$req->desde."' ,'%m-%d-%Y') 
+                                " AND date_format(`fecha_actividad`,'%m-%d-%Y') < date_format( '".$req->hasta."' ,'%m-%d-%Y')
                                 GROUP BY date_format(`fecha_actividad`,'%m-%d-%Y')";
-                    }else
-                        if($req->hasta){
+                    }else{
+                        $sql = "SELECT date_format(`fecha_actividad`,'%m-%d-%Y'), count(date_format(`fecha_actividad`,'%m-%d-%Y'))
+                                FROM `actividad_portales`
+                                WHERE `id_cliente` = ".$id_cliente.
+                                " AND date_format(`fecha_actividad`,'%m-%d-%Y') between date_format(now()-interval 7 day,'%m-%d-%Y') and date_format(now(),'%m-%d-%Y')
+                                GROUP BY date_format(`fecha_actividad`,'%m-%d-%Y')";
+                    }
+        
+            $results = DB::select($sql);
 
-                            $req->hasta = (new DateTime($req->hasta))->format('Y-m-d');
+            return $results;
 
-                            $sql = "SELECT date_format(`fecha_actividad`,'%m-%d-%Y'), count(date_format(`fecha_actividad`,'%m-%d-%Y'))
-                                    FROM `actividad_portales`
-                                    WHERE `id_cliente` = ".$id_cliente.
-                                    " AND date_format(`fecha_actividad`,'%m-%d-%Y') < date_format( '".$req->hasta."' ,'%m-%d-%Y')
-                                    GROUP BY date_format(`fecha_actividad`,'%m-%d-%Y')";
-                        }else{
-                            $sql = "SELECT date_format(`fecha_actividad`,'%m-%d-%Y'), count(date_format(`fecha_actividad`,'%m-%d-%Y'))
-                                    FROM `actividad_portales`
-                                    WHERE `id_cliente` = ".$id_cliente.
-                                    " AND date_format(`fecha_actividad`,'%m-%d-%Y') between date_format(now()-interval 7 day,'%m-%d-%Y') and date_format(now(),'%m-%d-%Y')
-                                    GROUP BY date_format(`fecha_actividad`,'%m-%d-%Y')";
-                        }
-            
-                $results = DB::select($sql);
-
-                return $results;
-
-
-            }else
-                return "El id del usuario '".$user->username."' no se encuentra en tabla clientes";
         }
     }
 
@@ -230,14 +212,7 @@ class GraphicsController extends Controller
 
             $user=Auth::user();
             
-            $sql1 = "SELECT id_cliente
-                    FROM clientes
-                    WHERE id_usuario_web =".$user->id_usuario_web;
-
-            $rows = DB::select($sql1);
-
-            if(count($rows)){
-                $id_cliente = $rows[0]->id_cliente;
+                $id_cliente = $this->getIdcliente();
 
                 if($req->desde and $req->hasta){
 
@@ -283,10 +258,6 @@ class GraphicsController extends Controller
                 $results = DB::select($sql);
 
                 return $results;
-
-
-            }else
-                return "El id del usuario '".$user->username."' no se encuentra en tabla clientes";
         }
     }
 
@@ -314,15 +285,8 @@ class GraphicsController extends Controller
             $req = json_decode($req);
 
             $user=Auth::user();
-            
-            $sql1 = "SELECT id_cliente
-                    FROM clientes
-                    WHERE id_usuario_web =".$user->id_usuario_web;
 
-            $rows = DB::select($sql1);
-
-            if(count($rows)){
-                $id_cliente = $rows[0]->id_cliente;
+                $id_cliente = $this->getIdcliente();
 
                 if($req->desde and $req->hasta){
 
@@ -395,8 +359,6 @@ class GraphicsController extends Controller
 
                 return $array;
                 
-            }else
-                return "El id del usuario '".$user->username."' no se encuentra en tabla clientes";
         }
     }
 
@@ -423,15 +385,8 @@ class GraphicsController extends Controller
             $req = json_decode($req);
 
             $user=Auth::user();
-            
-            $sql1 = "SELECT id_cliente
-                    FROM clientes
-                    WHERE id_usuario_web =".$user->id_usuario_web;
 
-            $rows = DB::select($sql1);
-
-            if(count($rows)){
-                $id_cliente = $rows[0]->id_cliente;
+                $id_cliente = $this->getIdcliente();
 
                 
                 if($req->desde and $req->hasta){
@@ -509,10 +464,49 @@ class GraphicsController extends Controller
 
                 return $array;
 
-
-            }else
-                return "El id del usuario '".$user->username."' no se encuentra en tabla clientes";
         }
     }
+
+    public function coneccfraudulentas()
+    {
+        if($this->getIdcliente() == null ){
+            return redirect('home');
+        }
+
+        $clientes = $this->getclientes();
+
+        return view('graphics/coneccfraudulentas',compact('clientes'));
+    }
+
+    public function getconeccfraudulentas()
+    {
+        if(Request::ajax()){
+
+            $req = Request::all();
+
+            $req = json_encode($req);
+
+            $req = json_decode($req);
+
+            $user=Auth::user();
+            
+            $id_cliente = $this->getIdcliente();
+
+            // //buscar las macs que tengan mas de 3 conexiones los ultimos 3 dias
+    
+            $sql = "SELECT mac, count(`mac`)
+                    FROM `registro_portales`
+                    WHERE `id_cliente` = 4
+                     AND date_format(`fecha_registro`,'%m-%d-%Y') between date_format(now()-interval 7 day,'%m-%d-%Y') and date_format(now(),'%m-%d-%Y')
+                    GROUP BY `mac` 
+                    HAVING ( COUNT(*) > 3)";
+
+            $results = DB::select($sql);
+
+            return $results;
+        }
+    }
+
+
 
 }

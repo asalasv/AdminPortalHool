@@ -38,7 +38,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-
         $user=Auth::user();
 
         $clientes = Cliente::where('id_usuario_web', $user->id_usuario_web)->get();

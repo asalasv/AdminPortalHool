@@ -15,7 +15,7 @@ Home
 
 			<div class="panel-body">
 				<div class="col-md-12">
-					<img src="img/admin.jpg" alt="..." class="img-rounded center-block">
+					<img src="img/admin.jpg" alt="..." class="img-rounded center-block img-responsive">
 				</div>
 			</div>
 <!-- 				<div class="box-footer">

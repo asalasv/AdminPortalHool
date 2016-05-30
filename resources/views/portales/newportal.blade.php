@@ -61,13 +61,13 @@ Nuevo Portal
 					<div class="row " style="padding-top: 7px;">
 						<div class="form col-xs-12">
 							<label for="exampleInputFile">Imagen Publicidad &nbsp;</label><small>(Máx. 100 Kb)</small>
-							<input type="file" class="input-file" id="imagen_publicidad" name="imagen_publicidad" size="100">
+							<input type="file" class="input-file" id="imagen_publicidad" ext="jpg" name="imagen_publicidad" size="100">
 						</div>
 					</div>
 					<div class="row" style="padding-top: 7px;">
 						<div class="form col-xs-12">
 							<label for="exampleInputFile">Logo Local &nbsp;</label><small>(Máx. 25 Kb)</small>
-							<input type="file" class="input-file" id="imagen_logo" name="imagen_logo" size="25">
+							<input type="file" class="input-file" id="imagen_logo" name="imagen_logo" ext="png" size="25">
 						</div>
 					</div>
 					<div class="row" style="padding-top: 7px;">
@@ -148,9 +148,7 @@ Nuevo Portal
 
     		var extension = filename.substr( (filename.lastIndexOf('.') +1) );
 
-    		switch(extension) {
-    			case 'jpg':
-    			case 'png':
+    		if($(this).attr('type') == extension){
     			var sizeByte = this.files[0].size;
 
     			var siezekiloByte = parseInt(sizeByte / 1024);
@@ -159,19 +157,28 @@ Nuevo Portal
     				alert('El tamaño supera el limite permitido ('+$(this).attr('size')+' Kb)');
     				$(this).val('');
     			}
-    			break;
-    			default:
-    			alert("El formato debe ser '.jpg' o '.png'");
+    		}else{
+    			alert("El formato para '"+$(this).attr('name')+"' debe ser '"+$(this).attr('ext')+"'");
     			$(this).val('');
     		}
+
     	});
     });
 
     function formulario(f) { 
+
+    	if($('#check').is(':checked') == false){
+    		if(f.fecha_inicio.value == '' || f.fecha_fin.value == ''){
+    			alert ('Ningun campo fecha puede estar vacio');
+    			f.fecha_inicio.focus();
+    			f.fecha_fin.focus();
+    			return false; 
+    		}
+    	}
     	if (f.descripcion.value   == '') { 
     		alert ('El campo descripcion/nombre esta vacío');  
     		f.descripcion.focus(); 
-    		return false; 
+    		return false;
     	}else{
     		alert('Su portal ha sido creado con éxito!');
     	}

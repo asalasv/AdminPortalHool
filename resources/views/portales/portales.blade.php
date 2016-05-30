@@ -18,7 +18,7 @@ Portales
 						<div class="input-group" style="width: 50px;">
 							<!-- Button trigger modal -->
                             <a href="{{ url('/newportal') }}" >
-                                <button class="btn btn-block btn-primary btn-sm">Agregar Portal</button>
+                                <button class="btn btn-primary btn-sm">Agregar Portal</button>
                             </a>
 						</div>
 					</div>

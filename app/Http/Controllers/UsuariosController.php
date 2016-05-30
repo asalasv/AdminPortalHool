@@ -23,6 +23,14 @@ class UsuariosController extends Controller
         return Session::get('client.id_cliente');
     }
 
+    public function getclientes(){
+        $user=Auth::user();
+
+        $clientes = Cliente::where('id_usuario_web', $user->id_usuario_web)->get();
+
+        return $clientes;
+    }
+
     public function index(){
 
         if($this->getIdcliente() == null ){
@@ -31,7 +39,7 @@ class UsuariosController extends Controller
 
         $user=Auth::user();
 
-        $clientes = Cliente::where('id_usuario_web', $user->id_usuario_web)->get();
+        $clientes = $this->getclientes();
 
         $id_cliente = $this->getIdcliente();
         $cliente = Cliente::findOrFail($id_cliente);
@@ -44,7 +52,7 @@ class UsuariosController extends Controller
 
         $usuarios = Usuarios_ph::whereIn('id_usuario_ph', $usuariosid)->paginate(15);
 
-        return view('users/users',compact('usuarios','cliente','clientes'));
+        return view('users/users',compact('usuarios','cliente','clientes','clientes_usuarios'));
     }
 
     public function verifyemail($email){
@@ -74,14 +82,27 @@ class UsuariosController extends Controller
 
 
     public function destroy($id, Request $request){
-            
-        $cliente = \DB::table('clientes_usuarios')->where('id_usuario_ph', '=', $id);
+        
+        //tambien validar que el id_cliente sea el this cliente
 
-        $usuario = Usuarios_ph::where('id_usuario_ph', '=', $id);
+        $usuarios = explode(",", $id);
 
-        $cliente->delete();
+        foreach ($usuarios as $id) {
 
-        $message = $usuario->first()->nombre . " fue eliminado de nuestros registros";
+            $sql = 'DELETE FROM clientes_usuarios WHERE id_cliente = '.$this->getIdcliente().' AND id_usuario_ph = '.$id;
+            $results = \DB::statement($sql);
+        }
+
+        if(count($usuarios) < 2){
+            $cliente = Clientes_Usuarios::where('id_usuario_ph', '=', $id)->where('id_cliente', '=', $this->getIdcliente());
+
+            $cliente = $cliente->first();
+
+            $usuario = Usuarios_ph::where('id_usuario_ph', '=', $id);
+
+            $message = $usuario->first()->nombre . " fue eliminado de sus registros";
+       } else
+            $message = " Los usuarios fueron eliminados de sus registros";
 
         return $message;
 
@@ -89,7 +110,6 @@ class UsuariosController extends Controller
 
     public function add($email, Request $request){
 
-        
         $usuario = Usuarios_ph::where('email', '=', $email);
 
         if($usuario->first()){
@@ -106,6 +126,49 @@ class UsuariosController extends Controller
         }
         
         return $usuario->first();
+    }
+
+    public function changestatusph($id, Request $request){
+
+        $cliente = Clientes_Usuarios::where('id_usuario_ph', '=', $id)->where('id_cliente', '=', $this->getIdcliente());
+
+        $cliente = $cliente->first();
+
+        if($cliente->status == 1){
+            $sql = 'UPDATE clientes_usuarios SET status = 0 WHERE id_cliente = '.$this->getIdcliente().' AND id_usuario_ph = '.$cliente->id_usuario_ph;
+            $results = \DB::statement($sql);
+            return 'Usuario deshabilitado';
+        }else{
+            $sql = 'UPDATE clientes_usuarios SET status = 1 WHERE id_cliente = '.$this->getIdcliente().' AND id_usuario_ph = '.$cliente->id_usuario_ph;
+            $results = \DB::statement($sql);
+            return 'Usuario habilitado';
+        }
+
+    }
+
+    public function habilitarph($id, Request $request){
+        
+        $usuarios = explode(",", $id);
+
+        foreach ($usuarios as $usuario) {
+            $sql = 'UPDATE clientes_usuarios SET status = 1 WHERE id_cliente = '.$this->getIdcliente().' AND id_usuario_ph = '.$usuario;
+            $results = \DB::statement($sql);
+        }
+
+        return 'ok';
+    }
+
+
+    public function inhabilitarph($id, Request $request){
+        
+        $usuarios = explode(",", $id);
+
+        foreach ($usuarios as $usuario) {
+            $sql = 'UPDATE clientes_usuarios SET status = 0 WHERE id_cliente = '.$this->getIdcliente().' AND id_usuario_ph = '.$usuario;
+            $results = \DB::statement($sql);
+        }
+
+        return 'ok';
     }
 
 }

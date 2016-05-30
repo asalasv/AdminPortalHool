@@ -17,7 +17,7 @@ Editar Portal
 				</div><!-- /.box-header -->
 				<div class="box-body">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
-					{!! Form::model ($portal, ['route'=> ['editportal', $portal], 'method' => 'put', 'class'=>'form-horizontal', 'files'=>true, 'enctype'=>'multipart/form-data']) !!}
+					{!! Form::model ($portal, ['route'=> ['editportal', $portal], 'method' => 'put', 'class'=>'form-horizontal', 'files'=>true, 'enctype'=>'multipart/form-data', 'onsubmit' => 'return formulario(this)']) !!}
 					<div class="row">
 						<div class="col-xs-9">
 							<label class="control-label" for="date">Descripcion o nombre del portal</label>
@@ -71,13 +71,13 @@ Editar Portal
 								<img src='{{ asset("images/$portal->imagen_publicidad") }}'  style="height: 200px;" alt="..." class="img-rounded center-block">
 								<div class="form-group" style="padding-left: 15px; padding-top: 10px;">
 									<label for="exampleInputFile">Cambiar Publicidad &nbsp;</label><small>(Máx. 100 Kb)</small>
-									<input type="file" class="input-file" id="imagen_publicidad" name="imagen_publicidad" size="100">
+									<input type="file" class="input-file" id="imagen_publicidad" ext="jpg" name="imagen_publicidad" size="100">
 								</div>
 							</div>
 							@else
 							<div class="form-group" style="padding-left: 15px;">
 								<label for="exampleInputFile">Imagen Publicidad &nbsp;</label><small>(Máx. 100 Kb)</small>
-								<input type="file" class="input-file" id="imagen_publicidad" name="imagen_publicidad" size="100">
+								<input type="file" class="input-file" id="imagen_publicidad" ext="jpg" name="imagen_publicidad" size="100">
 							</div>
 							@endif
 						</div>
@@ -88,13 +88,13 @@ Editar Portal
 								<img src='{{ asset("images/$portal->imagen_logo") }}'  style="height: 200px;" alt="..." class="img-rounded center-block">
 								<div class="form-group" style="padding-left: 15px; padding-top: 10px;">
 									<label for="exampleInputFile">Cambiar Logo &nbsp;</label><small>(Máx. 25 Kb)</small>
-									<input type="file" class="input-file" id="imagen_logo" name="imagen_logo" size="25" >
+									<input type="file" class="input-file" id="imagen_logo" name="imagen_logo" ext="png" size="25">
 								</div>
 							</div>
 							@else
 							<div class="form-group">
 								<label for="exampleInputFile">Logo Local &nbsp;</label><small>(Máx. 25 Kb)</small>
-								<input type="file" class="input-file" id="imagen_logo" name="imagen_logo" size="25">
+								<input type="file" class="input-file" id="imagen_logo" name="imagen_logo" ext="png" size="25">
 							</div>
 							@endif
 
@@ -169,25 +169,23 @@ Editar Portal
 
     		var extension = filename.substr( (filename.lastIndexOf('.') +1) );
 
-    		switch(extension) {
-    			case 'jpg':
-    			case 'png':
-	    			var sizeByte = this.files[0].size;
+    		if($(this).attr('type') == extension){
+    			var sizeByte = this.files[0].size;
 
-	    			var siezekiloByte = parseInt(sizeByte / 1024);
+    			var siezekiloByte = parseInt(sizeByte / 1024);
 
-	    			if(siezekiloByte > $(this).attr('size')){
-	    				alert('El tamaño supera el limite permitido ('+$(this).attr('size')+' Kb)');
-	    				$(this).val('');
-	    			}
-    			break;
-    			default:
-    			alert("El formato debe ser '.jpg' o '.png'");
+    			if(siezekiloByte > $(this).attr('size')){
+    				alert('El tamaño supera el limite permitido ('+$(this).attr('size')+' Kb)');
+    				$(this).val('');
+    			}
+    		}else{
+    			alert("El formato para '"+$(this).attr('name')+"' debe ser '"+$(this).attr('ext')+"'");
     			$(this).val('');
     		}
+
     	});
 
-    	var predeterminado = false;
+    	var predeterminado;
 
     	if ($('#check').is(':checked') == true){
     		$('#fecha_inicio').prop('disabled', true);
@@ -224,10 +222,29 @@ Editar Portal
     	});
 
     	$("#actualizar").click(function(){
-    		alert('Su portal ha sido actualizado con éxito!');
+    		// alert('Su portal ha sido actualizado con éxito!');
     	});
 
     });
+
+    function formulario(f) { 
+
+    	if($('#check').is(':checked') == false){
+    		if(f.fecha_inicio.value == '0000-00-00' || f.fecha_fin.value == '0000-00-00'){
+    			alert ('Ningun campo fecha puede ser 0000-00-00');
+    			f.fecha_inicio.focus();
+    			f.fecha_fin.focus();
+    			return false; 
+    		}
+    	}
+    	if (f.descripcion.value   == '') { 
+    		alert ('El campo descripcion/nombre esta vacío');  
+    		f.descripcion.focus(); 
+    		return false;
+    	}else{
+    		alert('Su portal ha sido actualizado con éxito!');
+    	}
+    }
 
 </script>
 

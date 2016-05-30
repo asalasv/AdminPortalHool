@@ -80,7 +80,7 @@ Registros Ultima Semama
 			url: "/connectlastweek/get",
 			data: dataString,
 			success: function(data){
-
+				console.log(data);
 				var chart = {
 					chart: {
 						renderTo: 'graphic1',
@@ -155,7 +155,7 @@ Registros Ultima Semama
 				url: "/connectlastweek/get",
 				data: dataString,
 				success: function(data){
-
+					console.log(data);
 					var chart = {
 						chart: {
 							renderTo: 'graphic1',

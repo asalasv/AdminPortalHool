@@ -8,7 +8,12 @@
         @if (! Auth::guest())
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{asset('/img/dashboard-1.jpg')}}" class="img-thumbnail" alt="User Image" />
+                    @if(Session::has('portal.logo'))
+                        <img src="{{asset(Session::get('portal.logo'))}}" class="img-thumbnail" alt="User Image" />
+                    @else 
+                        <img src="{{asset('/img/dashboard-1.jpg')}}" class="img-thumbnail" alt="User Image" />
+                    @endif
+                
             </div>
             <div class="pull-left info">
                 <p>{{ Auth::user()->username }} <br/>
@@ -34,7 +39,7 @@
         <ul class="sidebar-menu ">
             <li class="header">MENÚ</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="treeview"><a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>Home</span></a></li>
+            <li class="treeview"><a href="{{ url('home') }}"><i class='fa fa-home'></i> <span>Home</span></a></li>
             <li class="treeview"><a href="#" data-toggle="modal" data-target="#SelectModal"><i class='fa fa-building'></i> <span>Clientes</span></a></li>
             <li class="treeview" id="menu-grafic">
                 <a href="#"><i class='fa fa-line-chart'></i> <span>Estadísticas</span> <i class="fa fa-angle-left pull-right"></i></a>
@@ -44,6 +49,7 @@
                     <li><a href="{{ url('connectlastweek') }}">Conexiones al Portal</a></li>
                     <li><a href="{{ url('portalhookuserreg') }}">Registro Usuarios PH vs Visitantes</a></li>
                     <li><a href="{{ url('sexportalhookuserreg') }}">Registro Usuarios PH por Género</a></li>
+                    <li><a href="{{ url('coneccfraudulentas') }}">Conexiones Fraudulentas</a></li>
                 </ul>
             </li>
             <li class="treeview"><a href="{{ url('usuarios') }}"><i class='fa fa-users'></i> <span>Usuarios</span></a></li>

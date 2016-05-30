@@ -7,8 +7,8 @@
 @section('content')
 <body class="hold-transition login-page">
     <div class="login-box">
-        <div class="login-logo">
-            <a href="{{ url('/home') }}"><b>Portal</b>Hook</a>
+        <div class="login-logo" style="padding-left: 70px;padding-right: 70px">
+            <img src="img/logofinal.png" class="img-responsive">
         </div><!-- /.login-logo -->
 
     @if (count($errors) > 0)
@@ -23,7 +23,7 @@
     @endif
 
     <div class="login-box-body">
-    <p class="login-box-msg">Conectarse</p>
+    <p class="login-box-msg">Conetarse</p>
     <form action="{{ url('/login') }}" method="post">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="form-group has-feedback">
@@ -48,8 +48,10 @@
         </div>
     </form>
     <a href="{{ url('/password/reset') }}">¿Olvidaste tu contraseña?</a><br>
+        <p class="login-box-msg" style="padding-bottom: 0px;padding-top: 10px;">Si tienes un usuario web administrador, ingresa colocando el email y el password.</p>
 
 </div><!-- /.login-box-body -->
+
 
 </div><!-- /.login-box -->
 

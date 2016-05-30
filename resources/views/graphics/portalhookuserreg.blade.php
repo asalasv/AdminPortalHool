@@ -89,7 +89,7 @@ Registros Ultima Semama
 						text: 'Registro Usuarios PH vs Visitantes'
 					},
 					xAxis: {
-						categories: [],
+						categories: ["Dia 1","Dia 2","Dia 3","Dia 4","Dia 5","Dia 6"],
 						labels: {
 							style: {
 								color: 'black',
@@ -133,10 +133,10 @@ Registros Ultima Semama
 					},
 					series: [{
 						name: 'Cantidad de Registros Usuarios PH',
-						data: []
+						data: [4,6,3,5,0,4]
 					},{
 						name: 'Cantidad de visitantes',
-						data: []
+						data: [5,6,1,2,7,9]
 					}]
 				};
 
@@ -144,41 +144,71 @@ Registros Ultima Semama
 				var series1 =[];
 				var categories = [];
 
-				var array = $.map(data, function(value, index) {
-					[value];
-				});
-				var a = data.length;
-				console.log('length '+a);
-				for(var i=0; i<a; i++){
-					console.log('i: '+i);
-					var b = data[i].length;
+				// var array = $.map(data, function(value, index) {
+				// 	[value];
+				// });
+				// var a = data.length;
+				// console.log('length '+a);
+				// if(data[1].length > data[0].length){
+				// 		console.log('el segundo categorie es mayor')
+				// 		var b = data[1].length;
+				// 		for(var j=0; j<b; j++){
+				// 			if(data[1][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]){
+				// 				categories.push(data[1][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]);
+				// 			}
+				// 		};
 
-					for(var j=0; j<b; j++){
-						if(i==0){
-							if(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]){
-								console.log('nbbb')
-								categories.push(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]);
-								series.push(parseInt(data[i][j]["count(date_format(`fecha_registro`,'%m-%d-%Y'))"]));
-							}
-						}else{
-							if(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]){
-								console.log('all')
-								categories.push(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]);
-								series1.push(parseInt(data[i][j]["count(date_format(`fecha_registro`,'%m-%d-%Y'))"]));
-							}
-						}
-					};
-				};
-				console.log('categorias');
-				console.log(categories);
-				console.log('series: ');
-				console.log(series);
+				// 		for(var i=0; i<a; i++){
+				// 			console.log('i: '+i);
+				// 			b = data[i].length;
 
-				chart.series[0].data = series;
-				chart.series[1].data = series1;
-				chart.xAxis.categories = categories;
+				// 			for(j=0; j<b; j++){
+				// 				if(i==0){
+				// 					if(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]){
+				// 						console.log('nbbb')
+				// 						categories.push(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]);
+				// 						series.push(parseInt(data[i][j]["count(date_format(`fecha_registro`,'%m-%d-%Y'))"]));
+				// 					}
+				// 				}else{
+				// 					if(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]){
+				// 						console.log('all')
+				// 						series1.push(parseInt(data[i][j]["count(date_format(`fecha_registro`,'%m-%d-%Y'))"]));
+				// 					}
+				// 				}
+				// 			};
+				// 		};
 
-				// console.log(chart);
+				// 	}else			
+				// 		for(var i=0; i<a; i++){
+				// 			console.log('i: '+i);
+				// 			b = data[i].length;
+
+				// 			for(j=0; j<b; j++){
+				// 				if(i==0){
+				// 					if(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]){
+				// 						console.log('nbbb')
+				// 						categories.push(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]);
+				// 						series.push(parseInt(data[i][j]["count(date_format(`fecha_registro`,'%m-%d-%Y'))"]));
+				// 					}
+				// 				}else{
+				// 					if(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]){
+				// 						console.log('all')
+				// 						categories.push(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]);
+				// 						series1.push(parseInt(data[i][j]["count(date_format(`fecha_registro`,'%m-%d-%Y'))"]));
+				// 					}
+				// 				}
+				// 			};
+				// 		};
+				// console.log('categorias');
+				// console.log(categories);
+				// console.log('series: ');
+				// console.log(series);
+
+				// chart.series[0].data = series;
+				// chart.series[1].data = series1;
+				// chart.xAxis.categories = categories;
+
+				// // console.log(chart);
 
 				new Highcharts.Chart(chart);
 			}
@@ -266,26 +296,57 @@ Registros Ultima Semama
 					});
 					var a = data.length;
 					console.log('length '+a);
-					for(var i=0; i<a; i++){
-						console.log('i: '+i);
-						var b = data[i].length;
 
+					if(data[1].length > data[0].length){
+						console.log('el segundo categorie es mayor')
+						var b = data[1].length;
 						for(var j=0; j<b; j++){
-							if(i==0){
-								if(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]){
-									console.log('nbbb')
-									categories.push(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]);
-									series.push(parseInt(data[i][j]["count(date_format(`fecha_registro`,'%m-%d-%Y'))"]));
-								}
-							}else{
-								if(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]){
-									console.log('all')
-									categories.push(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]);
-									series1.push(parseInt(data[i][j]["count(date_format(`fecha_registro`,'%m-%d-%Y'))"]));
-								}
+							if(data[1][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]){
+								categories.push(data[1][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]);
 							}
 						};
-					};
+
+						for(var i=0; i<a; i++){
+							console.log('i: '+i);
+							b = data[i].length;
+
+							for(j=0; j<b; j++){
+								if(i==0){
+									if(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]){
+										console.log('nbbb')
+										categories.push(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]);
+										series.push(parseInt(data[i][j]["count(date_format(`fecha_registro`,'%m-%d-%Y'))"]));
+									}
+								}else{
+									if(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]){
+										console.log('all')
+										series1.push(parseInt(data[i][j]["count(date_format(`fecha_registro`,'%m-%d-%Y'))"]));
+									}
+								}
+							};
+						};
+
+					}else			
+						for(var i=0; i<a; i++){
+							console.log('i: '+i);
+							b = data[i].length;
+
+							for(j=0; j<b; j++){
+								if(i==0){
+									if(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]){
+										console.log('nbbb')
+										categories.push(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]);
+										series.push(parseInt(data[i][j]["count(date_format(`fecha_registro`,'%m-%d-%Y'))"]));
+									}
+								}else{
+									if(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]){
+										console.log('all')
+										categories.push(data[i][j]["date_format(`fecha_registro`,'%m-%d-%Y')"]);
+										series1.push(parseInt(data[i][j]["count(date_format(`fecha_registro`,'%m-%d-%Y'))"]));
+									}
+								}
+							};
+						};
 					console.log('categorias');
 					console.log(categories);
 					console.log('series: ');
