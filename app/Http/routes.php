@@ -89,7 +89,20 @@ Route::group(['middleware' => ['web']], function () {
 	    'uses' => 'UsuariosController@inhabilitarph'
 	]);
 
+	Route::post('asignargrupo/{id}/{group}',[
+	    'as' => 'asignargrupo', 
+	    'uses' => 'UsuariosController@asignargrupo'
+	]);
 
+	Route::post('changestatusgroup/{group}/{status}',[
+	    'as' => 'changestatusgroup', 
+	    'uses' => 'UsuariosController@changestatusgroup'
+	]);
+
+	Route::post('deletegroup/{group}/',[
+	    'as' => 'deletegroup', 
+	    'uses' => 'UsuariosController@deletegroup'
+	]);
 	/*
 	|--------------------------------------------------------------------------
 	| Emailing Modulo Routes

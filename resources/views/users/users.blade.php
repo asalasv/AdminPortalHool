@@ -47,31 +47,36 @@
 			</div>
 			<!-- AREA CHART -->
 			<div class="box box-primary" id="usertable">
-				<div class="box-body">
-					<div class="box-header">
-						<i class='fa fa-users'></i><h3 class="box-title" style="padding-right: 25;">Usuarios</h3>
-						<!-- <button type="button" id="asignargrupo" class="btn btn-default btn-xs" data-toggle="modal" data-target="#AsignGroup" style="margin-left: 100px;"><i class='fa fa-group'></i>&nbsp;Asignar a grupo</button>
-						<button type="button" id="grupos" class="btn btn-default btn-xs" data-toggle="modal" data-target="#Group"><i class='fa fa-group'></i>&nbsp;Grupos</button> -->
-						<button type="button" id="accionxlote" class="btn btn-default btn-xs dropdown" style="left: 50px;">
-							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="color: #444444;">
-							Accion por lote <span class="caret"></span>
-							</a>
-							<ul class="dropdown-menu">
-								<!-- <li role="presentation"><a role="menuitem" id="asignargrupo" tabindex="-1" data-toggle="modal" data-target="#AsignGroup" href="#"><i class='fa fa-group'></i></i>Asignar a grupo</a></li> -->
-								<li role="presentation"><a role="menuitem" id="habilitar" tabindex="-1" href="#"><i class="fa fa-circle-o"></i></i>Habilitar</a></li>
-								<li role="presentation"><a role="menuitem" id="deshabilitar" tabindex="-1" href="#"><i class="fa fa-ban"></i>Deshabilitar</a></li>
-								<li role="presentation"><a role="menuitem" id="borrar" tabindex="-1" href="#"><i class='fa fa-trash'></i>Eliminar</a></li>
-							</ul>
-						</button>
-						<div class="box-tools">
-							<div class="input-group" style="width: 50px;">
-								<!-- Button trigger modal -->
-								<button type="button" class="btn btn-block btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
-									<i class="fa fa-user-plus"></i>
-								</button>
-							</div>
+			
+				<div class="box-header">
+					<i class='fa fa-users'></i><h3 class="box-title" style="padding-right: 25;">Usuarios</h3>
+					<div class="box-tools">
+						<div class="input-group" style="width: 50px;">
+							<!-- Button trigger modal -->
+							<button type="button" class="btn btn-block btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+								<i class="fa fa-user-plus"></i>
+							</button>
 						</div>
-					</div><!-- /.box-header -->
+					</div>
+				</div><!-- /.box-header -->
+				<div class="box-body" style="padding-top: 5px;">
+					<div class="row" style="padding-bottom: 10px;">
+						<div class="col-xs-12" style="padding-left: 20px;">
+							<button type="button" id="accionxlote" class="btn btn-default btn-xs dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="color: #444444;">
+									Accion por lote <span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li role="presentation"><a role="menuitem" id="asignargrupo" tabindex="-1" data-toggle="modal" data-target="#AsignGroup" href="#"><i class='fa fa-group'></i></i>Asignar a grupo</a></li>
+									<li role="presentation"><a role="menuitem" id="desagrupar" href="#"><i class='fa fa-mail-reply'></i></i>Desagrupar</a></li>
+									<li role="presentation"><a role="menuitem" id="habilitar" tabindex="-1" href="#"><i class="fa fa-circle-o"></i></i>Habilitar</a></li>
+									<li role="presentation"><a role="menuitem" id="deshabilitar" tabindex="-1" href="#"><i class="fa fa-ban"></i>Deshabilitar</a></li>
+									<li role="presentation"><a role="menuitem" id="borrar" tabindex="-1" href="#"><i class='fa fa-trash'></i>Eliminar</a></li>
+								</ul>
+							</button>
+							<button type="button" id="grupos" class="btn btn-default btn-xs" data-toggle="modal" data-target="#Group"><i class='fa fa-group'></i>&nbsp;Grupos</button>
+						</div>
+					</div>
 					<div class="box-body table-responsive no-padding">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<table class="table table-hover">
@@ -83,9 +88,10 @@
 								<th>Apellido</th>
 								<th>Email</th>
 								<th>Estatus</th>
-								<!-- <th>Grupo</th> -->
+								<th>Grupo</th>
 								<th>Estatus PH</th>
-
+								<th></th>
+								<th></th>
 							</tr>
 							@foreach($usuarios as $user)
 							<tr data-id="{{ $user->id_usuario_ph}}" data-name ="{{$user->nombre}}">
@@ -104,7 +110,7 @@
 								@endif
 								@foreach($clientes_usuarios as $client_us)
 								@if($client_us->id_usuario_ph == $user->id_usuario_ph)
-								<!-- <td>{{$client_us->grupo}}</td> -->
+								<td>{{$client_us->grupo}}</td>
 								@if($client_us->status == '1')
 								<td><span class="label label-success">Habilitado</span></td>
 								<td><a href="#" class="btn-bloq disable"><i class="fa fa-ban"></i></i>&nbsp;Deshabilitar</a></td>
@@ -160,70 +166,79 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="myModalLabel">Asignar a Grupo</h4>
+							<h4 class="modal-title" id="myModalLabel"><i class='fa fa-group'></i>&nbsp;Asignar a Grupo</h4>
 						</div>
 						<div class="modal-body">
-						<small>Seleccione el grupo o cree un nuevo grupo</small>
+							<div class="row col-xs-9">
+									<p class="help-block" id="bad-mess" style="color:red;"></p>
+									<p class="help-block" id="good-mess"></p>
+							</div>
 							<div class="box-tools pull-right"> 
 								<button data-toggle="modal" data-target="#NewGroup" type="button" class="btn btn-block btn-primary btn-sm creargrupo" style="margin-bottom: 5px;">
 									<i class="fa fa-user-plus"></i>&nbsp;Crear Grupo
 								</button>
-							</div>
-							<table class="table table-hover">
+							</div>							
+							<table class="table table-hover" id="table">
 								<tr>
 									<th>Nombre Grupo</th>
 								</tr>
-								<tr data-id="" data-name ="">
-									<td>nombre_grupo</td>
+								@foreach($grupos as $grupo)
+								<tr data-name ="{{$grupo}}">
+									<td>{{$grupo}}</td>
 								</tr>
+								@endforeach
 							</table>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" id="close" data-dismiss="modal">Close</button>
-								<button type="button" id="asignar" class="btn btn-primary" id="btn-add">Asignar</button>
+								<button type="button" class="btn btn-primary asignar" id="btn-add">Asignar</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<!-- Modal -->
+			<!-- Modal GRUPOS-->
 			<div class="modal fade" id="Group" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="myModalLabel">Grupos</h4>
+							<h4 class="modal-title" id="myModalLabel"><i class='fa fa-group'></i>&nbsp;Grupos</h4>
 						</div>
 						<div class="modal-body">
+							<div class="row col-xs-9">
+									<p class="help-block">Para crear un grupo debe seleccionar al menos un usuario</p>
+							</div>
 							<div class="box-tools pull-right"> 
 								<button data-toggle="modal" data-target="#NewGroup" type="button" class="btn btn-block btn-primary btn-sm creargrupo" style="margin-bottom: 5px;">
 									<i class="fa fa-user-plus"></i>&nbsp;Crear Grupo
 								</button>
-							</div>
+							</div>							
 							<table class="table table-hover">
-								<tr>
+								<tr data-name="header">
 									<th>Nombre Grupo</th>
 									<th></th>
 									<th></th>
-									<th></th>
+							<!-- 		<th></th> -->
 								</tr>
-								<tr data-id="" data-name ="">
-									<td>nombre_grupo</td>
-									<td><a href="#" class="btn-delete_group"><i class="fa fa-ban"></i></i>Deshabilitar</a></td>
-									<td><a id="disable" href="#" class="btn-delete_group"><i class="fa fa-circle-o"></i></i>Habilitar</a></td>
-									<td><a href="#" class="btn-delete_group"><i class="fa fa-trash"></i></i>Eliminar</a></td>
+								@foreach($grupos as $grupo)
+								<tr data-id="" data-name ="{{$grupo}}">
+									<td>{{$grupo}}</td>
+									<td><a href="#" class="btn-changestatus-group" id="0"><i class="fa fa-ban"></i></i>Deshabilitar</a></td>
+									<td><a href="#" class="btn-changestatus-group" id="1"><i class="fa fa-circle-o"></i></i>Habilitar</a></td>
+<!-- 								<td><a href="#" class="btn-delete_group"><i class="fa fa-trash"></i></i>Eliminar</a></td> -->
+									@endforeach
 								</table>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" id="close" data-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-primary" id="btn-add">Agregar</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 
-				<!-- Modal -->
+				<!-- Modal ASIGNAR A GRUPO-->
 				<div class="modal fade" id="NewGroup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
@@ -235,13 +250,13 @@
 							<div class="row">
 								<div class="col-xs-9">
 									<label class="control-label" for="date">Nombre del grupo</label>
-									<input type="text" class="form-control" name="newgroup" id="newgroup" placeholder="Nombre">
+									<input type="text" class="form-control" name="namegrup" id="namegrup" placeholder="Nombre">
 								</div>
 							</div>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" id="close" data-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-primary" id="btn-add">Crear</button>
+								<button type="button" class="btn btn-primary CreateGrupo" id="btn-add">Crear</button>
 							</div>
 						</div>
 					</div>
@@ -270,6 +285,14 @@
 				{!! Form::open(['route' => ['inhabilitarph', ':Users'], 'method' =>'post', 'id' => 'form-inhabilitarph']) !!}
 				{!!Form::close() !!}
 
+				{!! Form::open(['route' => ['asignargrupo', ':Users', ':Grupo'], 'method' =>'post', 'id' => 'form-asignargrupo']) !!}
+				{!!Form::close() !!}
+
+				{!! Form::open(['route' => ['changestatusgroup', ':Grupo', ':status'], 'method' =>'post', 'id' => 'form-changestatusgroup']) !!}
+				{!!Form::close() !!}
+
+
+
 				<script type="text/javascript">
 					$.ajaxSetup({
 						headers: {
@@ -277,6 +300,11 @@
 						}
 					});
 					$(document).ready(function(){
+
+						$("#table tr").click(function(){
+						   $(this).addClass('active').siblings().removeClass('active');    
+						   var value=$(this).find('td:first').html();
+						});
 
 						if($('#tipo').val() == 'privado')
 							$("#usertable").show(1000);
@@ -427,12 +455,15 @@
 						$('#asignargrupo').click(function(){
 							var rowsid = getselectedrows();
 							if(rowsid == null){
-								alert('Debe seleccionar al menos un usuario');
 								$('.creargrupo').prop('disabled', true);
-								$('#asignar').prop('disabled', true);
+								$('.asignar').prop('disabled', true);
+								$("#good-mess").text("");
+								$("#bad-mess").text("Debe seleccionar al menos un usuario");
 							}else{
 								$('.creargrupo').prop('disabled', false);
-								$('#asignar').prop('disabled', false);
+								$('.asignar').prop('disabled', false);
+								$("#bad-mess").text("");
+								$("#good-mess").text("Seleccione un grupo o cree uno nuevo");
 								//Asignar los usuarios que esten en rowsid al grupo seleccionado
 							}
 						});
@@ -446,14 +477,121 @@
 							}
 						});
 
+						$('.asignar').click(function(){
+							if(typeof $('#table .active').html() === "undefined"){
+								alert('Debe seleccionar un grupo o crear uno nuevo');
+							}else{
+								var rowsid = getselectedrows();
+								var row = $('#table .active');
+								var nombre = row.data('name');
+								if (typeof nombre === "undefined") {
+								    alert('Debe seleccionar un grupo o crear uno nuevo');
+								}else{
+									var id = rowsid;
+									var form = $('#form-asignargrupo');
+									var url = form.attr('action').replace(':Users',id);
+									var url = url.replace(':Grupo', nombre);
+									var data = form.serialize();
 
-						$('.creargrupo').click(function(){
+									$.ajax({
+										type: 'post',
+										url: url,
+										data: data,
+										success: function(data){
+											window.location.reload();
+										}
+									});	
+								}
+							}
+						});
+
+						$('#desagrupar').click(function(){
 							var rowsid = getselectedrows();
 							if(rowsid == null){
-								$('.creargrupo').prop('disabled', true);
+								alert('Debe seleccionar al menos un usuario');
 							}else{
-								$('.creargrupo').prop('disabled', false);
+								var id = rowsid;
+								var form = $('#form-asignargrupo');
+								var url = form.attr('action').replace(':Users',id);
+								var url = url.replace(':Grupo', '0');
+								var data = form.serialize();
+
+								$.ajax({
+									type: 'post',
+									url: url,
+									data: data,
+									success: function(data){
+										window.location.reload();
+									}
+								});	
 							}
+						});
+
+
+
+						$('.btn-changestatus-group').click(function(){
+
+							var status = this.id;
+							var row = $(this).parents('tr');
+							var grupo = row.data('name');
+								// alert('Grupo: '+grupo+' status: '+status)
+							var form = $('#form-changestatusgroup');
+							var url = form.attr('action').replace(':Grupo',grupo);
+							var url = url.replace(':status', status);
+							var data = form.serialize();
+
+							$.ajax({
+								type: 'post',
+								url: url,
+								data: data,
+								success: function(data){
+									window.location.reload();
+								}
+							});	
+							
+						});
+
+						// $('.btn-delete_group').click(function(){
+						// 	var grupo = row.data('name');
+						// 		// alert('Grupo: '+grupo+' status: '+status)
+						// 	var form = $('#form-deletegroup');
+						// 	var url = form.attr('action').replace(':Grupo',grupo);
+						// 	var data = form.serialize();
+
+						// 	$.ajax({
+						// 		type: 'post',
+						// 		url: url,
+						// 		data: data,
+						// 		success: function(data){
+						// 			window.location.reload();
+						// 		}
+						// 	});	
+							
+						// });
+
+
+						$('.CreateGrupo').click(function(){
+							// 	alert('El nombre del grupo no puede estar en vacio')
+							// }else{
+								var rowsid = getselectedrows();
+								var id = rowsid;
+								var form = $('#form-asignargrupo');
+								var url = form.attr('action').replace(':Users',id);
+								if($('#namegrup').val() == "")
+									var url = url.replace(':Grupo', '0');
+								else
+									var url = url.replace(':Grupo', $('#namegrup').val());
+								var data = form.serialize();
+
+								$.ajax({
+									type: 'post',
+									url: url,
+									data: data,
+									success: function(data){
+										window.location.reload();
+									}
+								});	
+							// }
 						});
 
 

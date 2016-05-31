@@ -45,14 +45,20 @@ class UsuariosController extends Controller
         $cliente = Cliente::findOrFail($id_cliente);
         $clientes_usuarios = \DB::table('clientes_usuarios')->where('id_cliente', '=', $id_cliente)->get();
         $usuariosid = array();
+        $grupos = array();
         
         foreach ($clientes_usuarios as $usuario) {
             array_push($usuariosid, $usuario->id_usuario_ph);
+            array_push($grupos, $usuario->grupo);
         }
+
+        $grupos = array_unique($grupos);
+
+        $grupos = array_filter($grupos);
 
         $usuarios = Usuarios_ph::whereIn('id_usuario_ph', $usuariosid)->paginate(15);
 
-        return view('users/users',compact('usuarios','cliente','clientes','clientes_usuarios'));
+        return view('users/users',compact('usuarios','cliente','clientes','clientes_usuarios','grupos'));
     }
 
     public function verifyemail($email){
@@ -170,5 +176,71 @@ class UsuariosController extends Controller
 
         return 'ok';
     }
+
+    public function asignargrupo($id, $grupo, Request $request){
+
+        $usuarios = explode(",", $id);
+
+        foreach ($usuarios as $usuario) {
+
+            if($grupo == "0"){
+                $sql = 'UPDATE clientes_usuarios SET grupo = "" WHERE id_cliente = '.$this->getIdcliente().' AND id_usuario_ph = '.$usuario;
+                $results = \DB::statement($sql);
+
+            }else{
+
+                $sql = 'UPDATE clientes_usuarios SET grupo = "'.$grupo.'" WHERE id_cliente = '.$this->getIdcliente().' AND id_usuario_ph = '.$usuario;
+                $results = \DB::statement($sql);
+            }
+        }
+
+        return 'ok';
+
+    }
+
+    public function changestatusgroup($grupo, $status, Request $request){
+
+        $usuarios = Clientes_Usuarios::where('grupo', '=', $grupo)->where('id_cliente', '=', $this->getIdcliente())->get();
+
+        // $clientes_usuarios = \DB::table('clientes_usuarios')->where('id_cliente', '=', $id_cliente)->get();
+        foreach ($usuarios as $usuario) {
+
+            if($status == "0"){
+                $sql = 'UPDATE clientes_usuarios SET status = "0" WHERE id_cliente = '.$this->getIdcliente().' AND id_usuario_ph = '.$usuario->id_usuario_ph;
+                $results = \DB::statement($sql);
+
+            }else{
+
+                $sql = 'UPDATE clientes_usuarios SET status = "1" WHERE id_cliente = '.$this->getIdcliente().' AND id_usuario_ph = '.$usuario->id_usuario_ph;
+                $results = \DB::statement($sql);
+            }
+        }
+
+        return 'ok';
+
+    }
+
+    // public function deletegroup($grupo, Request $request){
+
+    //     $usuarios = Clientes_Usuarios::where('grupo', '=', $grupo)->where('id_cliente', '=', $this->getIdcliente())->get();
+
+    //     // $clientes_usuarios = \DB::table('clientes_usuarios')->where('id_cliente', '=', $id_cliente)->get();
+    //     foreach ($usuarios as $usuario) {
+
+    //         if($status == "0"){
+    //             $sql = 'UPDATE clientes_usuarios SET status = "0" WHERE id_cliente = '.$this->getIdcliente().' AND id_usuario_ph = '.$usuario->id_usuario_ph;
+    //             $results = \DB::statement($sql);
+
+    //         }else{
+
+    //             $sql = 'UPDATE clientes_usuarios SET status = "1" WHERE id_cliente = '.$this->getIdcliente().' AND id_usuario_ph = '.$usuario->id_usuario_ph;
+    //             $results = \DB::statement($sql);
+    //         }
+    //     }
+
+    //     return 'ok';
+
+    // }
+
 
 }
