@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="form-group has-feedback">
-                    <input type="password" class="form-control" placeholder="Contrasela" name="password_confirmation"/>
+                    <input type="password" class="form-control" placeholder="Contraseña" name="password_confirmation"/>
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
 

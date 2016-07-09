@@ -23,12 +23,12 @@
     @endif
 
     <div class="login-box-body">
-    <p class="login-box-msg">Conetarse</p>
+    <p class="login-box-msg"></p>
     <form action="{{ url('/login') }}" method="post">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="form-group has-feedback">
-            <input type="email" class="form-control" placeholder="Email" name="email"/>
-            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            <input type="text" class="form-control" placeholder="Username" name="username"/>
+            <span class="glyphicon glyphicon-user form-control-feedback"></span>
         </div>
         <div class="form-group has-feedback">
             <input type="password" class="form-control" placeholder="Password" name="password"/>

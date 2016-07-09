@@ -64,9 +64,11 @@
                             <li><a href="{{ url('changepass') }}">Cambiar Password</a></li>
                         </ul>   
                     </li>
-                    <li class="treeview">
+                    <li class="treeview" id="menu-wifi">
                         <a href="#"><i class='fa fa-wifi'></i> <span>Wifi</span> <i class="fa fa-angle-left pull-right"></i></a>
-                        <ul class="treeview-menu">
+                        <ul class="treeview-menu" >
+                            <li><a href="{{ url('portalpass') }}">Cambiar password Portal</a></li>
+                            <li><a href="{{ url('sesiones') }}">Usuarios conectados</a></li>
                             <li><a href="#">Bloq. de disp. por MAC</a></li>
                             <li><a href="#">Bloq. de categorías de internet</a></li>
                         </ul>

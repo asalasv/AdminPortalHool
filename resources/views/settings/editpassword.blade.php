@@ -46,12 +46,6 @@ Cambiar Contraseña
 		<!-- /.box -->
 	</div>
 
-	{!! Form::open(['route' => ['deleteusuario', ':USER_ID'], 'method' =>'delete', 'id' => 'form-delete']) !!}
-	{!!Form::close() !!}
-
-	{!! Form::open(['route' => ['postusuario', ':Email'], 'method' =>'post', 'id' => 'form-post']) !!}
-	{!!Form::close() !!}
-
 	<script type="text/javascript">
 		$.ajaxSetup({
 			headers: {
@@ -59,7 +53,6 @@ Cambiar Contraseña
 			}
 		});
 		$(document).ready(function(){
-
 
 			$(function(){
 				$('#menu-config').addClass('active')
@@ -72,19 +65,27 @@ Cambiar Contraseña
 				var password1 = $('#pass1').val();
 				var password2 = $('#pass2').val();
 
-				if(password1 == password2){
-					$('#allert').text('');
-					$('#span1').html('<i class="fa fa-check"></i>');
-					$('#span2').html('<i class="fa fa-check"></i>');
-					$('#cambiar').prop('disabled', false);
-					// habilitar boton cambiar
-					
-				}else{
-					$('#allert').text('Las contraseñas no coinciden');
+				if( $.trim(password1) == '' ){
+					$('#allert').text('Las contraseñas no pueden estar en blanco');
 					$('#span1').html('<i class="fa fa-times-circle-o"></i>');
 					$('#span2').html('<i class="fa fa-times-circle-o"></i>');
 					$('#cambiar').prop('disabled', true);
-					// disable boton cambiar
+
+				}else{
+					if(password1 == password2){
+						$('#allert').text('');
+						$('#span1').html('<i class="fa fa-check"></i>');
+						$('#span2').html('<i class="fa fa-check"></i>');
+						$('#cambiar').prop('disabled', false);
+						// habilitar boton cambiar
+						
+					}else{
+						$('#allert').text('Las contraseñas no coinciden');
+						$('#span1').html('<i class="fa fa-times-circle-o"></i>');
+						$('#span2').html('<i class="fa fa-times-circle-o"></i>');
+						$('#cambiar').prop('disabled', true);
+						// disable boton cambiar
+					}
 				}
 			});
 
@@ -93,47 +94,27 @@ Cambiar Contraseña
 				var password1 = $('#pass1').val();
 				var password2 = $('#pass2').val();
 
-				if(password1 == password2){
-					$('#allert').text('');
-					$('#span1').html('<i class="fa fa-check"></i>');
-					$('#span2').html('<i class="fa fa-check"></i>');
-					$('#cambiar').prop('disabled', false);
-					// habilitar boton cambiar
-					
-				}else{
-					$('#allert').text('las contraseñas no coinciden');
+				if( $.trim(password2) == '' ){
+					$('#allert').text('Las contraseñas no pueden estar en blanco');
 					$('#span1').html('<i class="fa fa-times-circle-o"></i>');
 					$('#span2').html('<i class="fa fa-times-circle-o"></i>');
 					$('#cambiar').prop('disabled', true);
-					// disable boton cambiar
-				}
-			});
 
-
-			$('#btn-add').click(function(){
-				var form = $('#form-post');
-				var email= $("#Email").val();
-				var url = form.attr('action').replace(':Email',email);
-				var data = form.serialize();
-
-				if(email==""){
-					alert("Ingrese un email por favor")
 				}else{
-					$.ajax({
-						type: 'post',
-						url: url,
-						data: data,
-						success: function(data){
-
-							if(data==""){
-								alert(email+' no se encuentra en nuestros registros');
-							}
-							if (data == "refresh"){
-							    	window.location.reload(); // This is not jQuery but simple plain ol' JS
-							    }
-							    console.log(data);
-							}
-						});
+					if(password1 == password2){
+						$('#allert').text('');
+						$('#span1').html('<i class="fa fa-check"></i>');
+						$('#span2').html('<i class="fa fa-check"></i>');
+						$('#cambiar').prop('disabled', false);
+						// habilitar boton cambiar
+						
+					}else{
+						$('#allert').text('las contraseñas no coinciden');
+						$('#span1').html('<i class="fa fa-times-circle-o"></i>');
+						$('#span2').html('<i class="fa fa-times-circle-o"></i>');
+						$('#cambiar').prop('disabled', true);
+						// disable boton cambiar
+					}
 				}
 			});
 

@@ -73,7 +73,7 @@ Nuevo Portal
 					<div class="row" style="padding-top: 7px;">
 						<div class="form col-xs-12">
 							<label for="exampleInputFile">Imagen Fondo &nbsp;</label><small>(Máx. 60 Kb)</small>
-							<input type="file" class="input-file" id="imagen_fondo" name="imagen_fondo" size="60">
+							<input type="file" class="input-file" id="imagen_fondo" name="imagen_fondo" ext="jpg" size="60">
 						</div>
 					</div>
 				</div>
@@ -148,7 +148,7 @@ Nuevo Portal
 
     		var extension = filename.substr( (filename.lastIndexOf('.') +1) );
 
-    		if($(this).attr('type') == extension){
+    		if($(this).attr('ext') == extension){
     			var sizeByte = this.files[0].size;
 
     			var siezekiloByte = parseInt(sizeByte / 1024);
@@ -174,6 +174,10 @@ Nuevo Portal
     			f.fecha_fin.focus();
     			return false; 
     		}
+    	}
+    	if(f.imagen_publicidad.value == '' || f.imagen_logo.value == ''){
+    		alert ('Debe adjuntar imagen de publicidad y logo');
+    		return false; 
     	}
     	if (f.descripcion.value   == '') { 
     		alert ('El campo descripcion/nombre esta vacío');  

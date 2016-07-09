@@ -11,9 +11,26 @@
 |
 */
 
+
 Route::post('password/email','Auth\PasswordController@postEmail');
 
 Route::group(['middleware' => ['web']], function () {
+
+	/*
+	|--------------------------------------------------------------------------
+	| Authentication Routes
+	|--------------------------------------------------------------------------
+	*/
+
+	Route::auth();
+
+ 	Route::get('ph-admin-newUserWebRegister', [
+	    'as' => 'ph-admin-newUserWebRegister', 'uses' => 'Auth\AuthController@showRegistrationForm'
+	]);
+
+	Route::get('/register', function () {
+		return redirect('/');
+	});
 
 	/*
 	|--------------------------------------------------------------------------
@@ -25,8 +42,6 @@ Route::group(['middleware' => ['web']], function () {
 	| kernel and includes session state, CSRF protection, and more.
 	|
 	*/
-
-    Route::auth();
 
     Route::get('/home', 'HomeController@index');
 
@@ -43,6 +58,12 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('password/email','Auth\PasswordController@getEmail');
 	Route::post('password/email','Auth\PasswordController@getEmail');
 
+	Route::get('sesiones','SessionsController@index');
+
+	Route::post('desconectar/{sesion}',[
+	    'as' => 'desconectar', 
+	    'uses' => 'SessionsController@desconectar'
+	]);
 
 	/*
 	|--------------------------------------------------------------------------
@@ -136,8 +157,6 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('coneccfraudulentas', 'GraphicsController@coneccfraudulentas');
 	Route::get('coneccfraudulentas/get', 'GraphicsController@getconeccfraudulentas');
 
-
-
 	/*
 	|--------------------------------------------------------------------------
 	| Portales Modulo Routes
@@ -180,6 +199,9 @@ Route::group(['middleware' => ['web']], function () {
 	    'uses' => 'SettingsController@updatepass'
 	]);
 
-
-
+	Route::get('portalpass','SettingsController@portalpass');
+	Route::put('/updateportalpass',[
+	    'as' => 'updateportalpass', 
+	    'uses' => 'SettingsController@updateportalpass'
+	]);
 });

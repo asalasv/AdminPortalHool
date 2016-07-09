@@ -16,17 +16,18 @@
 								<th>Email</th>
 								<th>Representante</th>
 							</tr>
-							@foreach($clientes as $cliente)
-							<tr data-id="{{ $cliente->id_cliente}}" data-name ="{{$cliente->nombre}}">
-								<td><i class="fa fa-building"></i></td>
-								<td>{{$cliente->nombre}}</td>
-								<td>{{$cliente->alias}}</td>
-								<td>{{$cliente->direccion}}</td>
-								<td>{{$cliente->email}}</td>
-								<td>{{$cliente->representante}}</td>
-							</tr>
-							@endforeach
-
+							@if(!isset($clientes))
+								@foreach($clientes as $cliente)
+								<tr data-id="{{ $cliente->id_cliente}}" data-name ="{{$cliente->nombre}}">
+									<td><i class="fa fa-building"></i></td>
+									<td>{{$cliente->nombre}}</td>
+									<td>{{$cliente->alias}}</td>
+									<td>{{$cliente->direccion}}</td>
+									<td>{{$cliente->email}}</td>
+									<td>{{$cliente->representante}}</td>
+								</tr>
+								@endforeach
+							@endif
 						</table>
 					</div>
 				</div>

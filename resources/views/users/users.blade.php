@@ -62,18 +62,18 @@
 				<div class="box-body" style="padding-top: 5px;">
 					<div class="row" style="padding-bottom: 10px;">
 						<div class="col-xs-12" style="padding-left: 20px;">
-							<button type="button" id="accionxlote" class="btn btn-default btn-xs dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="color: #444444;">
-									Accion por lote <span class="caret"></span>
-								</a>
-								<ul class="dropdown-menu">
+
+							<button type="button" id="accionxlote" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">Accion por lote
+								<span class="caret"></span>
+							</button>
+								<ul class="dropdown-menu" style="margin-left: 20px;">
 									<li role="presentation"><a role="menuitem" id="asignargrupo" tabindex="-1" data-toggle="modal" data-target="#AsignGroup" href="#"><i class='fa fa-group'></i></i>Asignar a grupo</a></li>
 									<li role="presentation"><a role="menuitem" id="desagrupar" href="#"><i class='fa fa-mail-reply'></i></i>Desagrupar</a></li>
 									<li role="presentation"><a role="menuitem" id="habilitar" tabindex="-1" href="#"><i class="fa fa-circle-o"></i></i>Habilitar</a></li>
 									<li role="presentation"><a role="menuitem" id="deshabilitar" tabindex="-1" href="#"><i class="fa fa-ban"></i>Deshabilitar</a></li>
 									<li role="presentation"><a role="menuitem" id="borrar" tabindex="-1" href="#"><i class='fa fa-trash'></i>Eliminar</a></li>
 								</ul>
-							</button>
+							
 							<button type="button" id="grupos" class="btn btn-default btn-xs" data-toggle="modal" data-target="#Group"><i class='fa fa-group'></i>&nbsp;Grupos</button>
 						</div>
 					</div>
@@ -87,11 +87,11 @@
 								<th>Nombre</th>
 								<th>Apellido</th>
 								<th>Email</th>
-								<th>Estatus</th>
 								<th>Grupo</th>
+								<th>Estatus</th>
+								<th></th>
+								<th></th>
 								<th>Estatus PH</th>
-								<th></th>
-								<th></th>
 							</tr>
 							@foreach($usuarios as $user)
 							<tr data-id="{{ $user->id_usuario_ph}}" data-name ="{{$user->nombre}}">
@@ -101,13 +101,6 @@
 								<td>{{$user->nombre}}</td>
 								<td>{{$user->apellido}}</td>
 								<td>{{$user->email}}</td>
-								@if($user->status == '1' || $user->status == '2')
-								<td><span class="label label-success">Activo</span></td>
-								@elseif($user->status == '0')
-								<td><span class="label label-danger">Bloqueado por PortalHook</span></td>
-								@elseif($user->status == '3')
-								<td><span class="label label-warning">Dado de baja</span></td>
-								@endif
 								@foreach($clientes_usuarios as $client_us)
 								@if($client_us->id_usuario_ph == $user->id_usuario_ph)
 								<td>{{$client_us->grupo}}</td>
@@ -121,6 +114,13 @@
 								@endif
 								@endforeach
 								<td><a href="#" class="btn-delete"><i class="fa fa-fw fa-user-times"></i></i>Eliminar</a></td>
+								@if($user->status == '1' || $user->status == '2')
+								<td><span class="label label-success">Activo</span></td>
+								@elseif($user->status == '0')
+								<td><span class="label label-danger">Bloqueado por PortalHook</span></td>
+								@elseif($user->status == '3')
+								<td><span class="label label-warning">Dado de baja</span></td>
+								@endif
 								@endforeach
 							</table>
 							{!! $usuarios->render() !!}
@@ -153,7 +153,7 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-default" id="close" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 							<button type="button" class="btn btn-primary" id="btn-add">Agregar</button>
 						</div>
 					</div>
@@ -189,7 +189,7 @@
 								@endforeach
 							</table>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default" id="close" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 								<button type="button" class="btn btn-primary asignar" id="btn-add">Asignar</button>
 							</div>
 						</div>
@@ -231,7 +231,7 @@
 								</table>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default" id="close" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 							</div>
 						</div>
 					</div>
@@ -255,7 +255,7 @@
 							</div>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default" id="close" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 								<button type="button" class="btn btn-primary CreateGrupo" id="btn-add">Crear</button>
 							</div>
 						</div>
@@ -300,6 +300,9 @@
 						}
 					});
 					$(document).ready(function(){
+
+						$('.close').prop('disabled', false);
+						// $('close').prop('disabled', false);
 
 						$("#table tr").click(function(){
 						   $(this).addClass('active').siblings().removeClass('active');    
@@ -594,37 +597,38 @@
 							// }
 						});
 
-
-						$('#close').click(function(){
-							$('#allert').text('');
-							$('#goodallert').text('');
-							$('#span2').html('<i class="fa fa-times-circle-o"></i>');
-							$('#btn-add').prop('disabled', true);
-						});
+						// $('#close').click(function(){
+						// 	$('#allert').text('');
+						// 	$('#goodallert').text('');
+						// 	$('#span2').html('<i class="fa fa-times-circle-o"></i>');
+						// 	$('#btn-add').prop('disabled', true);
+						// });
 
 						$('#cambiar').click(function(){
 							var form = $('#form-change');
 							var url = form.attr('action');
 							var data = form.serialize();
 
-							$.ajax({
-								type: 'post',
-								url: url,
-								data: data,
-								success: function(data){
-									if($('#tipo').val() == 'privado'){
-									//console.log('abrimos tabla');
-									$("#usertable").hide(1000);
-									$( "#tipomensaje" ).html( '<i class="fa fa-unlock" style="font-size: 20px"></i>&nbsp;Actualmente este Portal se encuentra configurado como <b>Público</b><input type="hidden" id="tipo" value="publico"></input>' );
-									$('#cambiar').text('Cambiar a Privado');
-								}else{
-									//console.log('escondemos tabla');
-									$("#usertable").show(1000);
-									$( "#tipomensaje" ).html( '<i class="fa fa-lock" style="font-size: 20px"></i>&nbsp;Actualmente este Portal se encuentra configurado como <b>Privado</b><input type="hidden" id="tipo" value="privado"></input>' );
-									$('#cambiar').text('Cambiar a Público');
-								}
+							if (confirm('¿Está seguro que desea cambiar el Tipo de configuración?')) {
+								$.ajax({
+										type: 'post',
+										url: url,
+										data: data,
+										success: function(data){
+											if($('#tipo').val() == 'privado'){
+											//console.log('abrimos tabla');
+											$("#usertable").hide(1000);
+											$( "#tipomensaje" ).html( '<i class="fa fa-unlock" style="font-size: 20px"></i>&nbsp;Actualmente este Portal se encuentra configurado como <b>Público</b><input type="hidden" id="tipo" value="publico"></input>' );
+											$('#cambiar').text('Cambiar a Privado');
+										}else{
+											//console.log('escondemos tabla');
+											$("#usertable").show(1000);
+											$( "#tipomensaje" ).html( '<i class="fa fa-lock" style="font-size: 20px"></i>&nbsp;Actualmente este Portal se encuentra configurado como <b>Privado</b><input type="hidden" id="tipo" value="privado"></input>' );
+											$('#cambiar').text('Cambiar a Público');
+										}
+									}
+								});
 							}
-						});
 						});
 
 

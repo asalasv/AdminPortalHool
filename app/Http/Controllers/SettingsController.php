@@ -52,6 +52,27 @@ class SettingsController extends Controller
     	 $user->save();
 
     	 return redirect('home');
-
     }
+
+    public function portalpass(){
+        if($this->getIdcliente() == null ){
+            return redirect('home');
+        }
+
+        $clientes = $this->getclientes();
+
+        return view('settings/portalpassword',compact('clientes'));
+    }
+
+    public function updateportalpass(Request $request){
+
+        $cliente = Cliente::findOrFail($this->getIdcliente());
+
+        $cliente->password = $request->password;
+
+        $cliente->save();
+
+        return redirect('home');
+    }
+
 }

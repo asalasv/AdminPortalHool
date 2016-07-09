@@ -35,8 +35,6 @@ class AuthController extends Controller
 
         Session::flush();
 
-        dd('hole');
-
         return redirect('/');
     }
 
@@ -59,7 +57,7 @@ class AuthController extends Controller
 
     public function loginUsername()
     {
-        return property_exists($this, 'username') ? $this->username : 'email';
+        return property_exists($this, 'username') ? $this->username : 'username';
     }
 
     /**
@@ -71,8 +69,10 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:0',
+            'username' => 'required|unique:usuarios_web',
+            'email' => 'required|email|max:255',
+            'password' => 'required|confirmed|min:3',
+            'g-recaptcha-response' => 'required|captcha',
         ]);
     }
 
@@ -85,6 +85,7 @@ class AuthController extends Controller
     protected function create(array $data)
     {
         return User::create([
+            'username' => $data['username'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);

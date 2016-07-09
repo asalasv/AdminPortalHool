@@ -106,13 +106,13 @@ Editar Portal
 								<img src='{{ asset("images/$portal->imagen_fondo") }}'  style="height: 200px;" alt="..." class="img-rounded center-block">
 								<div class="form-group" style="padding-left: 15px; padding-top: 10px;">
 									<label for="exampleInputFile">Cambiar fondo &nbsp;</label><small>(Máx. 60 Kb)</small>
-									<input type="file" class="input-file" id="imagen_fondo" name="imagen_fondo" size="60">
+									<input type="file" class="input-file" id="imagen_fondo" name="imagen_fondo" ext="jpg" size="60">
 								</div>
 							</div>
 							@else
 							<div class="form-group">
 								<label for="exampleInputFile">Imagen Fondo &nbsp;</label><small>(Máx. 60 Kb)</small>
-								<input type="file" class="input-file" id="imagen_fondo" name="imagen_fondo" size="60">
+								<input type="file" class="input-file" id="imagen_fondo" name="imagen_fondo" ext="jpg" size="60">
 							</div>
 							@endif
 						</div>
@@ -162,14 +162,37 @@ Editar Portal
 
     $(document).ready(function(){
 
+    	window.URL = window.URL || window.webkitURL;
+
     	/* Valida el tamaño maximo y formato de un archivo adjunto */
     	$('.input-file').change(function (){
     		var file = this.files[0]; 
     		var filename = file.name;
 
-    		var extension = filename.substr( (filename.lastIndexOf('.') +1) );
+    		var img = new Image();
 
-    		if($(this).attr('type') == extension){
+	        img.src = window.URL.createObjectURL( file );
+
+	        img.onload = function() {
+	            var width = img.naturalWidth,
+	                height = img.naturalHeight;
+
+	            window.URL.revokeObjectURL( img.src );
+
+	            alert('width: ' + width + ', height: '+ height);
+
+	            if( width == 400 && height == 300 ) {
+	          
+	            }
+	            else {
+	               
+	            }
+	        };
+
+
+    		var extension = filename.substr( (filename.lastIndexOf('.') +1) );
+    		// alert($(this).attr('ext')+' == '+extension);
+    		if($(this).attr('ext') == extension){
     			var sizeByte = this.files[0].size;
 
     			var siezekiloByte = parseInt(sizeByte / 1024);
